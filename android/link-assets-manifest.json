@@ -1,0 +1,69 @@
+{
+  "migIndex": 1,
+  "data": [
+    {
+      "path": "assets/fonts/Gelasio-Bold.ttf",
+      "sha1": "bc92faf84d15a25a5618b63c68c4d4d312cdbdb8"
+    },
+    {
+      "path": "assets/fonts/Gelasio-BoldItalic.ttf",
+      "sha1": "e7a7d517a475b7f8accb2183b1da652244d127cc"
+    },
+    {
+      "path": "assets/fonts/Gelasio-Italic.ttf",
+      "sha1": "689de0cd242794a7f89c8b7272a0ebd64db832d0"
+    },
+    {
+      "path": "assets/fonts/Gelasio-Medium.ttf",
+      "sha1": "b6e3f60762812e72117a4027a31ba12645dbb0a9"
+    },
+    {
+      "path": "assets/fonts/Gelasio-MediumItalic.ttf",
+      "sha1": "e94c23ff1606ca5ec94929ffe7dbb0fbbadbbce4"
+    },
+    {
+      "path": "assets/fonts/Gelasio-Regular.ttf",
+      "sha1": "9fbbe91882df3ce403acadefe7d9be8637361da4"
+    },
+    {
+      "path": "assets/fonts/Gelasio-SemiBold.ttf",
+      "sha1": "b2812e4e45593e9635cb9b46b1b94e38f2295b69"
+    },
+    {
+      "path": "assets/fonts/Gelasio-SemiBoldItalic.ttf",
+      "sha1": "e5a0397ce2ea9458b3d9fb11b294446ccb6c10fc"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-Black.ttf",
+      "sha1": "69e9061477b8d2ffcec035185ff4eaaedb7b2755"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-Bold.ttf",
+      "sha1": "c7e885d00c275b5385579d3479f48392013334e7"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-ExtraBold.ttf",
+      "sha1": "15819f2aba91bda9d9931f50aed113eba5adde1e"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-ExtraLight.ttf",
+      "sha1": "1172197f8dac0bc59acb799266234c0d21454ce6"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-Light.ttf",
+      "sha1": "25cf2d985ec471c3f36c8180df67fa3021ccc002"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-Regular.ttf",
+      "sha1": "771b9299e1d5d4239c032c7d4243a6f9343f89c4"
+    },
+    {
+      "path": "assets/fonts/NunitoSans-SemiBold.ttf",
+      "sha1": "85055562e9e48d7c1ca4eee938f5cf90f740b3c1"
+    },
+    {
+      "path": "assets/fonts/OFL.txt",
+      "sha1": "98879896768f403741b888348f57f549fb830196"
+    }
+  ]
+}
