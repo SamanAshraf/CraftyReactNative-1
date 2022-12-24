@@ -10,6 +10,7 @@ import VerifyCode from './Screens/VerifyCode';
 import ResetPassword from './Screens/ResetPassword';
 import PasswordUpdated from './Screens/PasswordUpdated';
 import AdminLogin from './Screens/AdminLogin';
+import Home from './Screens/Home';
 
 const Stack = createNativeStackNavigator();
 const AppNavigator= () => {
@@ -27,6 +28,7 @@ const AppNavigator= () => {
         <Stack.Screen name="ResetPassword" component={ResetPassword} options={{ headerShown: false }}/>
         <Stack.Screen name="PasswordUpdated" component={PasswordUpdated} options={{ headerShown: false }}/>
         <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ headerShown: false }}/>
+        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
         
    
       </Stack.Navigator>

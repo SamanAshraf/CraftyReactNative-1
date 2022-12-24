@@ -3,13 +3,40 @@ import React, {useState} from 'react';
 import { useTogglePasswordVisibility } from '../Components/useTogglePasswordVisibility';
 import ProfilingHeader from '../Components/ProfilingHeader';
 import ProfilingButton from '../Components/ProfilingButton';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login =()=>{
     const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
   const [password, setPassword] = useState('');
- 
+  const [email, setemail] = useState('');
+  const [badEmail, setBadEmail] = useState(false);
+  const [badPassword, setBadPassword] = useState(false);
+
+  const validate =()=>{
+    if (email ==''){
+      setBadEmail(true);
+    }else{
+      setBadEmail(false);
+    }
+    if(password == ''){
+      setBadPassword(true);
+    }else{
+      setBadPassword(false);
+    }
+    getData();
+  };
+
+  const getData =async()=>{
+    const mEmail =await AsyncStorage.getItem('EMAIL');
+    const mPass =await AsyncStorage.getItem('PASSWORD');
+    if(email== mEmail && mPass ===password){
+      navigation.navigate('Home');
+    }else{
+      alert('Wrong password');
+    }
+  }
   //for show password
   const navigation= useNavigation();
   return (
@@ -19,23 +46,24 @@ const Login =()=>{
 
       <View style={styles.container2}>
         <Text style={styles.title}>Hello  !</Text>
-        <Text style={styles.title1}>WELCOME BACK</Text>
+        <Text style={styles.title1}>WELCOME BAAACK</Text>
       </View>
 
       <View style={styles.logincontainer}>
         <Text style={styles.label}>Email</Text>
-        <TextInput style={styles.input}/>
+        <TextInput style={styles.input} value={email} onChangeText={text=>{setemail(text)}}/>
+        {badEmail==true && (<Text style={{color:'red',  marginTop:5,fontSize: 12}}>Please enter email id</Text>)}
         
         <Text style={styles.label1}>Password</Text>
-
         <View style={styles.input1}>
         <TextInput secureTextEntry={passwordVisibility} value={password} onChangeText={text => setPassword(text) } style={{width:'85%'}}/>
         <Pressable onPress={handlePasswordVisibility}><Image source={require('../images/eye.png')} style={{alignSelf:'flex-end',marginTop:13}}/></Pressable>
         </View>
-      
+        {badPassword==true && (<Text style={{color:'red',  marginTop:5,fontSize: 12}}>Please enter password</Text>)}
+        
         <TouchableOpacity onPress={()=>navigation.navigate("ForgetPassword")}><Text style={styles.forgotpass}>Forgot Password?</Text></TouchableOpacity>
 
-        <ProfilingButton title="LOG IN"/>
+        <ProfilingButton title="LOG IN" onPress={()=>{validate();}}/>
 
         <TouchableOpacity onPress={()=>navigation.navigate("Signup")}><Text style={styles.text}>SIGN UP</Text></TouchableOpacity>
         <Text style={styles.border}></Text>
@@ -72,7 +100,7 @@ const styles = StyleSheet.create({
   logincontainer:{
     backgroundColor: '#FDF4E7',
     width:345,
-    height:463,
+    height: 480,
     marginTop: '5%',
     elevation: 10,
     //for ios
@@ -88,7 +116,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   label1:{
-    marginTop: '7%',
+    marginTop: '5%',
     color:'#CEBB9E',
     fontSize: 14,
   },
@@ -102,6 +130,7 @@ const styles = StyleSheet.create({
     height: 45,
     borderBottomWidth: 1,
     borderBottomColor: '#CEBB9E',
+    color:'black'
   },
   forgotpass:{
     color: '#62442B',
@@ -110,7 +139,7 @@ const styles = StyleSheet.create({
     fontFamily: 'NunitoSans-SemiBold',
     justifyContent:"center",
     alignSelf: "center",
-    marginTop:'10%',
+    marginTop:'5%',
     paddingRight: 15,
   },
   
