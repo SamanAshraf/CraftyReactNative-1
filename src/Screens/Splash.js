@@ -8,9 +8,11 @@ const Splash = () => {
   const navigation= useNavigation();
   useEffect(()=>{
     setTimeout(() => {
-        getData();
+        //getData();
+        navigation.navigate('GetStarted');
     }, 3000);
   },[]);
+  /* 
   const getData =async ()=>{
     const email = await AsyncStorage.getItem('EMAIL');
     if (email!=='' || email !== null || email !==undefined){
@@ -19,7 +21,7 @@ const Splash = () => {
       navigation.navigate('GetStarted');
     }
   };
-
+ */
   return (
 
       <View style={styles.container}>

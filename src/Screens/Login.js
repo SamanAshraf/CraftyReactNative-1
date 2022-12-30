@@ -13,7 +13,7 @@ const Login =()=>{
   const [email, setemail] = useState('');
   const [badEmail, setBadEmail] = useState(false);
   const [badPassword, setBadPassword] = useState(false);
-
+/* 
   const validate =()=>{
     if (email ==''){
       setBadEmail(true);
@@ -26,8 +26,8 @@ const Login =()=>{
       setBadPassword(false);
     }
     getData();
-  };
-
+  }; */
+/* 
   const getData =async()=>{
     const mEmail =await AsyncStorage.getItem('EMAIL');
     const mPass =await AsyncStorage.getItem('PASSWORD');
@@ -36,7 +36,7 @@ const Login =()=>{
     }else{
       alert('Wrong password');
     }
-  }
+  } */
   //for show password
   const navigation= useNavigation();
   return (
@@ -52,18 +52,18 @@ const Login =()=>{
       <View style={styles.logincontainer}>
         <Text style={styles.label}>Email</Text>
         <TextInput style={styles.input} value={email} onChangeText={text=>{setemail(text)}}/>
-        {badEmail==true && (<Text style={{color:'red',  marginTop:5,fontSize: 12}}>Please enter email id</Text>)}
-        
+        {/* {badEmail==true && (<Text style={{color:'red',  marginTop:5,fontSize: 12}}>Please enter email id</Text>)}
+         */}
         <Text style={styles.label1}>Password</Text>
         <View style={styles.input1}>
         <TextInput secureTextEntry={passwordVisibility} value={password} onChangeText={text => setPassword(text) } style={{width:'85%'}}/>
         <Pressable onPress={handlePasswordVisibility}><Image source={require('../images/eye.png')} style={{alignSelf:'flex-end',marginTop:13}}/></Pressable>
         </View>
-        {badPassword==true && (<Text style={{color:'red',  marginTop:5,fontSize: 12}}>Please enter password</Text>)}
-        
+        {/* {badPassword==true && (<Text style={{color:'red',  marginTop:5,fontSize: 12}}>Please enter password</Text>)}
+         */}
         <TouchableOpacity onPress={()=>navigation.navigate("ForgetPassword")}><Text style={styles.forgotpass}>Forgot Password?</Text></TouchableOpacity>
 
-        <ProfilingButton title="LOG IN" onPress={()=>{validate();}}/>
+        <ProfilingButton title="LOG IN" onPress={()=>navigation.navigate('Home')}/>
 
         <TouchableOpacity onPress={()=>navigation.navigate("Signup")}><Text style={styles.text}>SIGN UP</Text></TouchableOpacity>
         <Text style={styles.border}></Text>

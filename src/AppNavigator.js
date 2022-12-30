@@ -11,12 +11,17 @@ import ResetPassword from './Screens/ResetPassword';
 import PasswordUpdated from './Screens/PasswordUpdated';
 import AdminLogin from './Screens/AdminLogin';
 import Home from './Screens/Home';
+import Favorites from './Screens/Favorites';
+import Notifications from './Screens/Notifications';
+import Profile from './Screens/Profile';
+import { BottomNavigator } from "./BottomNavigator";
+import Congrats from './Screens/Congrats';
 
 const Stack = createNativeStackNavigator();
 const AppNavigator= () => {
 
   return (
-    <NavigationContainer>
+    
       <Stack.Navigator> 
         
         <Stack.Screen name="Splash" component={Splash} options={{ headerShown: false }}/>
@@ -27,13 +32,31 @@ const AppNavigator= () => {
         <Stack.Screen name="VerifyCode" component={VerifyCode} options={{ headerShown: false }}/>
         <Stack.Screen name="ResetPassword" component={ResetPassword} options={{ headerShown: false }}/>
         <Stack.Screen name="PasswordUpdated" component={PasswordUpdated} options={{ headerShown: false }}/>
-        <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ headerShown: false }}/>
-        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
+        <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ headerShown: false }}/>      
+        <Stack.Screen name="Congrats" component={Congrats} options={{ headerShown: false }}/>      
         
-   
+
+        <Stack.Screen name="Home" component={BottomNavigator} options={{ headerShown: false }}/>
+        
       </Stack.Navigator>
-    </NavigationContainer>
+  
+  );
+}
+/* const BottomAppNavigator= () => {
+
+  return (
+    
+      <Stack.Navigator> 
+        
+        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
+        <Stack.Screen name="Favorites" component={Favorites} options={{ headerShown: false }}/>
+        <Stack.Screen name="Notification" component={Notifications} options={{ headerShown: false }}/>
+        <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
+      
+      </Stack.Navigator>
+  
   );
 }
 
+ */
 export default AppNavigator;
