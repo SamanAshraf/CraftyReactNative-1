@@ -46,7 +46,7 @@ const Login =()=>{
 
       <View style={styles.container2}>
         <Text style={styles.title}>Hello  !</Text>
-        <Text style={styles.title1}>dont come back pls maf kro</Text>
+        <Text style={styles.title1}>WELCOME BACK</Text>
       </View>
 
       <View style={styles.logincontainer}>
