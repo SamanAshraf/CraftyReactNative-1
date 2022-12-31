@@ -1,8 +1,8 @@
 import { StyleSheet, Text, View , Image, TouchableOpacity, TextInput, Pressable} from 'react-native';
 import React, {useState} from 'react';
-import { useTogglePasswordVisibility } from '../Components/useTogglePasswordVisibility';
-import ProfilingHeader from '../Components/ProfilingHeader';
-import ProfilingButton from '../Components/ProfilingButton';
+import { useTogglePasswordVisibility } from '../../Components/useTogglePasswordVisibility';
+import ProfilingHeader from '../../Components/ProfilingHeader';
+import ProfilingButton from '../../Components/ProfilingButton';
 import { useNavigation } from '@react-navigation/native';
 
 const AdminLogin =()=>{
@@ -30,12 +30,12 @@ const AdminLogin =()=>{
 
         <View style={styles.input1}>
         <TextInput secureTextEntry={passwordVisibility} value={password} onChangeText={text => setPassword(text) } style={{width:'85%'}}/>
-        <Pressable onPress={handlePasswordVisibility}><Image source={require('../images/eye.png')} style={{alignSelf:'flex-end',marginTop:13}}/></Pressable>
+        <Pressable onPress={handlePasswordVisibility}><Image source={require('../../images/eye.png')} style={{alignSelf:'flex-end',marginTop:13}}/></Pressable>
         </View>
       
         <TouchableOpacity><Text style={styles.forgotpass}>Forgot Password?</Text></TouchableOpacity>
 
-        <ProfilingButton title="LOG IN"/>
+        <ProfilingButton title="LOG IN" onPress={()=>navigation.navigate('AdminDashboard')}/>
 
       </View>
      

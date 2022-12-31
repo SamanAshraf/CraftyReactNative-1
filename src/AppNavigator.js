@@ -9,13 +9,17 @@ import ForgetPassword from './Screens/ForgetPassword';
 import VerifyCode from './Screens/VerifyCode';
 import ResetPassword from './Screens/ResetPassword';
 import PasswordUpdated from './Screens/PasswordUpdated';
-import AdminLogin from './Screens/AdminLogin';
+import AdminLogin from './Screens/Admin/AdminLogin';
 import Home from './Screens/Home';
 import Favorites from './Screens/Favorites';
 import Notifications from './Screens/Notifications';
 import Profile from './Screens/Profile';
 import { BottomNavigator } from "./BottomNavigator";
+import { AdminBottomNavigator } from "./AdminBottomNavigator";
 import Congrats from './Screens/Congrats';
+import AdminDashboard from './Screens/Admin/AdminDashboard';
+import Cart from './Screens/Cart';
+import Product from './Screens/Product';
 
 const Stack = createNativeStackNavigator();
 const AppNavigator= () => {
@@ -34,6 +38,10 @@ const AppNavigator= () => {
         <Stack.Screen name="PasswordUpdated" component={PasswordUpdated} options={{ headerShown: false }}/>
         <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ headerShown: false }}/>      
         <Stack.Screen name="Congrats" component={Congrats} options={{ headerShown: false }}/>      
+        <Stack.Screen name="Cart" component={Cart} options={{ headerShown: false }}/>      
+        <Stack.Screen name="Product" component={Product} options={{ headerShown: false }}/>      
+        
+        <Stack.Screen name="AdminDashboard" component={AdminBottomNavigator} options={{ headerShown: false }}/>      
         
 
         <Stack.Screen name="Home" component={BottomNavigator} options={{ headerShown: false }}/>

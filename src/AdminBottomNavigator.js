@@ -6,13 +6,14 @@ import { Image} from 'react-native';
 import Favorites from './Screens/Favorites';
 import Notifications from './Screens/Notifications';
 import Profile from './Screens/Profile';
-import Home from './Screens/Home';
+import Home from './Screens/Admin/AdminDashboard';
 import Icon from 'react-native-vector-icons/Octicons';
 import Icon1 from 'react-native-vector-icons/Fontisto';
 import Icon2 from 'react-native-vector-icons/Ionicons';
 import Icon3 from 'react-native-vector-icons/FontAwesome';
+import AdminDashboard from './Screens/Admin/AdminDashboard';
 const Tab = createBottomTabNavigator();
-const BottomNavigator= () => {
+const AdminBottomNavigator= () => {
 
   return (
     <Tab.Navigator
@@ -24,22 +25,8 @@ const BottomNavigator= () => {
     }}
     
     >
-      <Tab.Screen name="Home" component={Home} options={{
+      <Tab.Screen name="AdminDashboard" component={AdminDashboard} options={{
         tabBarIcon: ({focused,size}) => (<Icon name="home" size={size} color={focused ? '#FDF4E7' : '#9F845A'}/>),
-        tabBarShowLabel: false
-      }}/>
-      <Tab.Screen name="Favorites" component={Favorites} options={{
-        tabBarIcon: ({focused,size}) => (<Icon3 name="bookmark-o" size={size} color={focused ? '#FDF4E7' : '#9F845A'}/>),
-        tabBarShowLabel: false
-      }}/>
-  
-      <Tab.Screen name="Notification" component={Notifications} options={{
-        tabBarIcon: ({focused,size}) => (<Icon2 name="notifications-outline" size={size} color={focused ? '#FDF4E7' : '#9F845A'}/>),
-        tabBarShowLabel: false
-      }}/>
-      
-      <Tab.Screen name="Profile" component={Profile} options={{
-        tabBarIcon: ({focused,size}) => (<Icon2 name="person-outline" size={size} color={focused ? '#FDF4E7' : '#9F845A'}/>),
         tabBarShowLabel: false
       }}/>
       
@@ -49,4 +36,4 @@ const BottomNavigator= () => {
   );
 }
 
-export {BottomNavigator};
+export {AdminBottomNavigator};

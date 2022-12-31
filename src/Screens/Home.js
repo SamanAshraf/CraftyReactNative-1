@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View , Image, ImageBackground, TouchableOpacity, ScrollView} from 'react-native';
+import { StyleSheet, Text, View , Image, Pressable, TouchableOpacity, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, {useState} from 'react';
 import Icon  from 'react-native-vector-icons/Feather';
@@ -16,13 +16,15 @@ const Home =()=>{
   const [col5, setcolor5] = useState('#CEBB9E');
   
   
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         
         <Icon1 name='search-outline' color={'#62442B'} size={25} />
         <Text style={styles.title}>CRAFTY</Text>
-        <Icon name='shopping-cart' color={'#62442B'} size={25}/>
+        <Pressable onPress={()=>navigation.navigate('Cart')}><Icon name='shopping-cart' color={'#62442B'} size={25}/></Pressable>
+        
         
       </View>
       
@@ -99,7 +101,7 @@ const Home =()=>{
           
       {data === '1'?
         <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-evenly'}}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('Product')}>
         <View style={{marginRight:10}}>
         <Image source={require('../images/lampp.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
         <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
