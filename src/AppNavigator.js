@@ -20,6 +20,8 @@ import Congrats from './Screens/Congrats';
 import AdminDashboard from './Screens/Admin/AdminDashboard';
 import Cart from './Screens/Cart';
 import Product from './Screens/Product';
+import Order from './Screens/Order';
+import Shipping from './Screens/Shipping';
 
 const Stack = createNativeStackNavigator();
 const AppNavigator= () => {
@@ -38,6 +40,8 @@ const AppNavigator= () => {
         <Stack.Screen name="PasswordUpdated" component={PasswordUpdated} options={{ headerShown: false }}/>
         <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ headerShown: false }}/>      
         <Stack.Screen name="Congrats" component={Congrats} options={{ headerShown: false }}/>      
+        <Stack.Screen name="Order" component={Order} options={{ headerShown: false }}/>      
+        <Stack.Screen name="Shipping" component={Shipping} options={{ headerShown: false }}/>      
         
         <Stack.Screen name="AdminDashboard" component={AdminBottomNavigator} options={{ headerShown: false }}/>      
         
