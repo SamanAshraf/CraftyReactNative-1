@@ -1,12 +1,15 @@
-import { StyleSheet, Text, View , Image, Pressable, TouchableOpacity, ScrollView} from 'react-native';
+import { StyleSheet, Text, View , Image, Pressable, TouchableOpacity, ScrollView, FlatList} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
 import Icon  from 'react-native-vector-icons/Feather';
 import Icon1  from 'react-native-vector-icons/Ionicons';
+import { Product } from '../Components/Product';
+import { getProducts, getProduct, getProductC } from '../ProductsService';
+import { CartContext } from '../CartContext';
+
 const Home =()=>{
   const navigation= useNavigation();
  
-  
   const [data, setdata] = React.useState('1');
   const [col, setcolor] = useState('#CEBB9E');
   const [col1, setcolor1] = useState('#62442B');
@@ -16,7 +19,50 @@ const Home =()=>{
   const [col5, setcolor5] = useState('#CEBB9E');
   
   
+  const {addItemToCart,setItems} = useContext(CartContext);
+  
 
+  function renderProduct({item: product}) {
+    return (
+      <Product {...product} 
+      onPress={() => {
+        navigation.navigate('Product', {
+          productId: product.id,});
+      }} 
+      onPress1={()=>{
+        const product1 = getProduct(product.id);
+          setItems((prevItems) => {
+            const item = prevItems.find((item) => (item.id == product.id));
+            let id =product.id;
+            if(!item) {
+                return [...prevItems, {
+                    id,
+                    qty: 1,
+                    product,
+                    totalPrice: product1.price 
+                }];
+            }
+            else { 
+                return prevItems.map((item) => {
+                  if(item.id == id) {
+                    item.qty++;
+                    item.totalPrice += product1.price;
+                  }
+                  return item;
+                });
+            }
+          });
+      }}
+      />
+    );
+  }
+
+  const [products, setProducts] = useState([]);
+  
+  useEffect(() => {
+    setProducts(getProducts());
+  });
+  
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -27,204 +73,146 @@ const Home =()=>{
         
         
       </View>
-      
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
+      <View>
+      <ScrollView horizontal={true} showsHorizontalScrollIndicator={false}>
             
-                <View style={{marginRight:15}}>
-                  <TouchableOpacity style={{...styles.box, backgroundColor:col1 }} onPress={() => { setdata('1'); 
-                                                                                                    setcolor('#CEBB9E');
-                                                                                                    setcolor1('#62442B');
-                                                                                                    setcolor2('#CEBB9E');
-                                                                                                    setcolor3('#CEBB9E');
-                                                                                                    setcolor4('#CEBB9E');
-                                                                                                    setcolor5('#CEBB9E');}}>
-                  <Image source={require('../images/star.png')} style={{alignSelf:'center',justifyContent:'center'}}/>
-                  </TouchableOpacity>
-                  <Text style={{marginTop:5, color:col1}}>Popular</Text>                
-                </View>
-                <View style={{marginRight:15}}>
-                <TouchableOpacity style={{...styles.box1, backgroundColor: col}} onPress={() => { setdata('2'); 
-                                                                                                  setcolor('#62442B');
-                                                                                                  setcolor1('#CEBB9E');
-                                                                                                  setcolor2('#CEBB9E');
-                                                                                                  setcolor3('#CEBB9E');
-                                                                                                  setcolor4('#CEBB9E');
-                                                                                                  setcolor5('#CEBB9E');}}>
-                  <Image source={require('../images/chair1.png')} style={{alignSelf:'center'}}/></TouchableOpacity>
-                <Text style={{marginTop:5, color:col,paddingLeft:10}}>Chair</Text>   
-                </View>
-                <View style={{marginRight:15}}>
-                <TouchableOpacity style={{...styles.box1, backgroundColor:col2}} onPress={() => { setdata('3'); 
-                                                                                                  setcolor('#CEBB9E');
-                                                                                                  setcolor2('#62442B');
-                                                                                                  setcolor1('#CEBB9E');
-                                                                                                  setcolor3('#CEBB9E');
-                                                                                                  setcolor4('#CEBB9E');
-                                                                                                  setcolor5('#CEBB9E');}}>
-                <Image source={require('../images/table1.png')} style={{alignSelf:'center'}}/></TouchableOpacity>
-                <Text style={{marginTop:5, color:col2,paddingLeft:8}}>Table</Text>                
-                </View>
-                <View style={{marginRight:10}} >
-                <TouchableOpacity style={{...styles.box1, backgroundColor:col3}} onPress={() => { setdata('4'); 
-                                                                                                  setcolor('#CEBB9E');
-                                                                                                  setcolor3('#62442B');
-                                                                                                  setcolor1('#CEBB9E');
-                                                                                                  setcolor2('#CEBB9E');
-                                                                                                  setcolor4('#CEBB9E');
-                                                                                                  setcolor5('#CEBB9E');}}>
-                <Image source={require('../images/armchair1.png')} style={{alignSelf:'center'}}/></TouchableOpacity>
-                <Text style={{marginTop:5, color:col3}}>Armchair</Text>   
-                </View>
-                <View style={{marginRight:10}}>
-                <TouchableOpacity style={{...styles.box1,backgroundColor:col4}} onPress={() => { setdata('5'); 
-                                                                                                  setcolor('#CEBB9E');
-                                                                                                  setcolor4('#62442B');
-                                                                                                  setcolor1('#CEBB9E');
-                                                                                                  setcolor3('#CEBB9E');
-                                                                                                  setcolor2('#CEBB9E');
-                                                                                                  setcolor5('#CEBB9E');}}>
-                  <Image source={require('../images/bed1.png')} style={{alignSelf:'center'}}/></TouchableOpacity>
-                <Text style={{marginTop:5, color:col4,paddingLeft:11}}>Bed</Text>   
-                </View>
-                <View style={{marginRight:10}}>
-                <TouchableOpacity style={styles.box1}><Image source={require('../images/lamp.png')} style={{alignSelf:'center'}}/></TouchableOpacity>
-                <Text style={{marginTop:5, color:'#CEBB9E',paddingLeft:7}}>Lamp</Text>   
-                </View>
- 
-          
+            <View style={{marginRight:15}}>
+              <TouchableOpacity style={{...styles.box, backgroundColor:col1 }} onPress={() => { setdata('1'); 
+                                                                                                setcolor('#CEBB9E');
+                                                                                                setcolor1('#62442B');
+                                                                                                setcolor2('#CEBB9E');
+                                                                                                setcolor3('#CEBB9E');
+                                                                                                setcolor4('#CEBB9E');
+                                                                                                setcolor5('#CEBB9E');}}>
+              <Image source={require('../images/star.png')} style={{alignSelf:'center',justifyContent:'center'}}/>
+              </TouchableOpacity>
+              <Text style={{marginTop:5, color:col1}}>Popular</Text>                
+            </View>
+            <View style={{marginRight:15}}>
+            <TouchableOpacity style={{...styles.box1, backgroundColor: col}} onPress={() => { setdata('2'); 
+                                                                                              setcolor('#62442B');
+                                                                                              setcolor1('#CEBB9E');
+                                                                                              setcolor2('#CEBB9E');
+                                                                                              setcolor3('#CEBB9E');
+                                                                                              setcolor4('#CEBB9E');
+                                                                                              setcolor5('#CEBB9E');
+                                                                                              }}>
+              <Image source={require('../images/chair1.png')} style={{alignSelf:'center'}}/></TouchableOpacity>
+            <Text style={{marginTop:5, color:col,paddingLeft:10}}>Chair</Text>   
+            </View>
+            <View style={{marginRight:15}}>
+            <TouchableOpacity style={{...styles.box1, backgroundColor:col2}} onPress={() => { setdata('3'); 
+                                                                                              setcolor('#CEBB9E');
+                                                                                              setcolor2('#62442B');
+                                                                                              setcolor1('#CEBB9E');
+                                                                                              setcolor3('#CEBB9E');
+                                                                                              setcolor4('#CEBB9E');
+                                                                                              setcolor5('#CEBB9E');}}>
+            <Image source={require('../images/table1.png')} style={{alignSelf:'center'}}/></TouchableOpacity>
+            <Text style={{marginTop:5, color:col2,paddingLeft:8}}>Table</Text>                
+            </View>
+            <View style={{marginRight:10}} >
+            <TouchableOpacity style={{...styles.box1, backgroundColor:col3}} onPress={() => { setdata('4'); 
+                                                                                              setcolor('#CEBB9E');
+                                                                                              setcolor3('#62442B');
+                                                                                              setcolor1('#CEBB9E');
+                                                                                              setcolor2('#CEBB9E');
+                                                                                              setcolor4('#CEBB9E');
+                                                                                              setcolor5('#CEBB9E');}}>
+            <Image source={require('../images/armchair1.png')} style={{alignSelf:'center'}}/></TouchableOpacity>
+            <Text style={{marginTop:5, color:col3}}>Armchair</Text>   
+            </View>
+            <View style={{marginRight:10}}>
+            <TouchableOpacity style={{...styles.box1,backgroundColor:col4}} onPress={() => { setdata('5'); 
+                                                                                              setcolor('#CEBB9E');
+                                                                                              setcolor4('#62442B');
+                                                                                              setcolor1('#CEBB9E');
+                                                                                              setcolor3('#CEBB9E');
+                                                                                              setcolor2('#CEBB9E');
+                                                                                              setcolor5('#CEBB9E');}}>
+              <Image source={require('../images/bed1.png')} style={{alignSelf:'center'}}/></TouchableOpacity>
+            <Text style={{marginTop:5, color:col4,paddingLeft:11}}>Bed</Text>   
+            </View>
+            <View style={{marginRight:10}}>
+            <TouchableOpacity style={{...styles.box1,backgroundColor:col5}} onPress={() => { setdata('6'); 
+                                                                                              setcolor('#CEBB9E');
+                                                                                              setcolor4('#CEBB9E');
+                                                                                              setcolor1('#CEBB9E');
+                                                                                              setcolor3('#CEBB9E');
+                                                                                              setcolor2('#CEBB9E');
+                                                                                              setcolor5('#62442B');}}><Image source={require('../images/lamp1.png')} style={{alignSelf:'center'}} /></TouchableOpacity>
+            <Text style={{marginTop:5, color:col5,paddingLeft:7}}>Lamp</Text>   
+            </View>
 
-            </ScrollView>
 
-  
-            
- <ScrollView showsVerticalScrollIndicator={false}>
-          
+        </ScrollView>
+      </View>
+                    
       {data === '1'?
-        <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-evenly'}}>
-        <TouchableOpacity onPress={()=>navigation.navigate('Product')}>
-        <View style={{marginRight:10}}>
-        <Image source={require('../images/lampp.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-        <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>5,000 PKR</Text>
-        </View>
-        </TouchableOpacity>
         
-        <View>
-        <Image source={require('../images/minimalstand.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-          <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>4,000 PKR</Text>
-        </View>
-      
-
-        <View style={{marginRight:10}}>
-        <Image source={require('../images/chairrr.png')} style={{alignSelf:'center',marginTop:'25%', borderRadius: 10}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-          <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>4,000 PKR</Text>
-        </View>
-
-        <View>
-        <Image source={require('../images/simpledesk.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-          <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>4,000 PKR</Text>
-        </View>
+        <View style={{flexDirection:'row'}}>
+            
+          <FlatList
+            contentContainerStyle={styles.productsListContainer}
+          keyExtractor={(item) => item.id.toString()}
+          data={products}
+          renderItem={renderProduct}
+            />  
+        </View> 
+      : data==='2' ? 
+        
+      <View style={{flexDirection:'row'}}>
+            
+      <FlatList
+        contentContainerStyle={styles.productsListContainer}
+      keyExtractor={(item) => item.id.toString()}
+      data={products.filter((product) => (product.category === 'Chair'))}
+      renderItem={renderProduct}
+        />  
       </View> 
-      : data==='2' ? <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-evenly'}}>
-        <TouchableOpacity>
-        <View style={{marginRight:10}}>
-        <Image source={require('../images/lampp.png')} style={{marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-        <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>5,000 PKR</Text>
-        </View>
-        </TouchableOpacity>
-        
-        <View>
-        <Image source={require('../images/minimalstand.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-          <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>4,000 PKR</Text>
-        </View>
-        </View>
-        : data==='3' ?
-        <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-evenly'}}>
-        <TouchableOpacity>
-        <View style={{marginRight:10}}>
-        <Image source={require('../images/lampp.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-        <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>5,000 PKR</Text>
-        </View>
-        </TouchableOpacity>
-        
-        <View>
-        <Image source={require('../images/minimalstand.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-          <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>4,000 PKR</Text>
-        </View>
-        </View>
+      : data==='3' ?
+      <View style={{flexDirection:'row'}}>
+            
+        <FlatList
+        contentContainerStyle={styles.productsListContainer}
+        keyExtractor={(item) => item.id.toString()}
+        data={products.filter((product) => (product.category === 'Table'))}
+        renderItem={renderProduct}
+          />  
+      </View> 
         : data==='4'?
-        <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-evenly'}}>
-        <TouchableOpacity>
-        <View style={{marginRight:10}}>
-        <Image source={require('../images/lampp.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-        <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>5,000 PKR</Text>
-        </View>
-        </TouchableOpacity>
         
-        <View>
-        <Image source={require('../images/minimalstand.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-          <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>4,000 PKR</Text>
-        </View>
-
-        </View>
+        <View style={{flexDirection:'row'}}>
+            
+          <FlatList
+            contentContainerStyle={styles.productsListContainer}
+          keyExtractor={(item) => item.id.toString()}
+          data={products.filter((product) => (product.category === 'ArmChair'))}
+          renderItem={renderProduct}
+            />  
+        </View> 
          : data==='5'?
-         <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-evenly'}}>
-        <TouchableOpacity>
-        <View style={{marginRight:10}}>
-        <Image source={require('../images/lampp.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-        <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>5,000 PKR</Text>
-        </View>
-        </TouchableOpacity>
-        
-        <View>
-        <Image source={require('../images/minimalstand.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-          <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>4,000 PKR</Text>
-        </View>
-        </View>            
-         :
-         <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-evenly'}}>
-        <TouchableOpacity>
-        <View style={{marginRight:10}}>
-        <Image source={require('../images/lampp.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-        <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>5,000 PKR</Text>
-        </View>
-        </TouchableOpacity>
-        
-        <View>
-        <Image source={require('../images/minimalstand.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <TouchableOpacity style={{position:'absolute',top:195,left:115}}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
-          <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-          <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>4,000 PKR</Text>
-        </View>
-        </View>
-           }         
-          
-        </ScrollView>         
+         
+        <View style={{flexDirection:'row'}}>
+            
+        <FlatList
+          contentContainerStyle={styles.productsListContainer}
+        keyExtractor={(item) => item.id.toString()}
+        data={products.filter((product) => (product.category === 'Bed'))}
+        renderItem={renderProduct}
+          />  
+        </View>             
+         :data==='6'?
+         <View style={{flexDirection:'row'}}>
+             
+         <FlatList
+           contentContainerStyle={styles.productsListContainer}
+         keyExtractor={(item) => item.id.toString()}
+         data={products.filter((product) => (product.category === 'Lamp'))}
+         renderItem={renderProduct}
+           />  
+         </View>: null
+           }                    
         
     </View>
   );
@@ -269,6 +257,11 @@ const styles = StyleSheet.create({
     borderRadius:15,
     alignSelf:'center',
     justifyContent:'center'
+  },
+  productsListContainer:{
+    flexDirection:'row',
+    flexWrap:'wrap',
+    marginLeft:15
   },
   Button:{
     backgroundColor: '#62442B',

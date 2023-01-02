@@ -38,33 +38,16 @@ const AppNavigator= () => {
         <Stack.Screen name="PasswordUpdated" component={PasswordUpdated} options={{ headerShown: false }}/>
         <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ headerShown: false }}/>      
         <Stack.Screen name="Congrats" component={Congrats} options={{ headerShown: false }}/>      
-        <Stack.Screen name="Cart" component={Cart} options={{ headerShown: false }}/>      
-        <Stack.Screen name="Product" component={Product} options={{ headerShown: false }}/>      
         
         <Stack.Screen name="AdminDashboard" component={AdminBottomNavigator} options={{ headerShown: false }}/>      
         
 
         <Stack.Screen name="Home" component={BottomNavigator} options={{ headerShown: false }}/>
+        <Stack.Screen name="Cart" component={Cart} options={{ headerShown: false }}/>      
+        <Stack.Screen name="Product" component={Product} options={{ headerShown: false }}/>      
         
       </Stack.Navigator>
   
   );
 }
-/* const BottomAppNavigator= () => {
-
-  return (
-    
-      <Stack.Navigator> 
-        
-        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }}/>
-        <Stack.Screen name="Favorites" component={Favorites} options={{ headerShown: false }}/>
-        <Stack.Screen name="Notification" component={Notifications} options={{ headerShown: false }}/>
-        <Stack.Screen name="Profile" component={Profile} options={{ headerShown: false }}/>
-      
-      </Stack.Navigator>
-  
-  );
-}
-
- */
 export default AppNavigator;
