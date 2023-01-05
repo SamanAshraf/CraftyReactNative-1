@@ -114,8 +114,6 @@ const styles = StyleSheet.create({
     justifyContent:'space-between',
     borderRadius:8,
     marginLeft:10
-
-
   },
   container: {
     flex: 1,
