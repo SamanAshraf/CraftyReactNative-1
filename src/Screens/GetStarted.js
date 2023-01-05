@@ -1,9 +1,18 @@
 import { StyleSheet, Text, View , Image, ImageBackground, TouchableOpacity} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import React, {useEffect, useState, useContext} from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GetStarted =()=>{
   const navigation= useNavigation();
- 
+  const [check,setcheck]=useState(false); 
+  
+  const saveData =async ()=>{
+    
+  await AsyncStorage.setItem('Check',check);
+    
+  
+}
 
   return (
     <View style={styles.container}>

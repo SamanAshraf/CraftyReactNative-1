@@ -3,19 +3,19 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Image} from 'react-native';
 
-import Favorites from './Screens/Favorites';
-import Notifications from './Screens/Notifications';
-import Profile from './Screens/Profile';
-import Home from './Screens/Admin/AdminDashboard';
 import Icon from 'react-native-vector-icons/Octicons';
 import Icon1 from 'react-native-vector-icons/Feather';
 import Icon2 from 'react-native-vector-icons/Entypo';
-import Icon3 from 'react-native-vector-icons/FontAwesome';
+import Icon3 from 'react-native-vector-icons/Ionicons';
 import AdminDashboard from './Screens/Admin/AdminDashboard';
 import OrderHistory from './Screens/Admin/OrderHistory';
 import ProductList from './Screens/Admin/ProductList';
+<<<<<<< HEAD
 import ProductOrder from './Screens/Admin/ProductOrder';
 
+=======
+import Profile from './Screens/Admin/Profile';
+>>>>>>> acc6b4abeb319bb66e90cf9416bbe87424fb4792
 const Tab = createBottomTabNavigator();
 const AdminBottomNavigator= () => {
 
@@ -39,6 +39,10 @@ const AdminBottomNavigator= () => {
       }}/>
       <Tab.Screen name="ProductList" component={ProductList} options={{
         tabBarIcon: ({focused,size}) => (<Icon1 name="box" size={size} color={focused ? '#FDF4E7' : '#9F845A'}/>),
+        tabBarShowLabel: false
+      }}/>
+      <Tab.Screen name="Profile" component={Profile} options={{
+        tabBarIcon: ({focused,size}) => (<Icon3 name="person-outline" size={size} color={focused ? '#FDF4E7' : '#9F845A'}/>),
         tabBarShowLabel: false
       }}/>
       

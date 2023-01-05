@@ -5,6 +5,9 @@ import ProfilingHeader from '../Components/ProfilingHeader';
 import ProfilingButton from '../Components/ProfilingButton';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth,db } from '../firebase';
+import { get } from 'react-native/Libraries/Utilities/PixelRatio';
 
 const Login =()=>{
     const { passwordVisibility, rightIcon, handlePasswordVisibility } =
@@ -13,30 +16,41 @@ const Login =()=>{
   const [email, setemail] = useState('');
   const [badEmail, setBadEmail] = useState(false);
   const [badPassword, setBadPassword] = useState(false);
-/* 
+  const [check, setCheck] = useState("1");
+
   const validate =()=>{
     if (email ==''){
       setBadEmail(true);
     }else{
       setBadEmail(false);
+      if(password == ''){
+        setBadPassword(true);
+      }else{
+        setBadPassword(false);
+        getData();
+        if(check==="2"){
+          navigation.navigate('Home');
+        }
+      }
     }
-    if(password == ''){
-      setBadPassword(true);
-    }else{
-      setBadPassword(false);
-    }
-    getData();
-  }; */
-/* 
-  const getData =async()=>{
-    const mEmail =await AsyncStorage.getItem('EMAIL');
-    const mPass =await AsyncStorage.getItem('PASSWORD');
-    if(email== mEmail && mPass ===password){
-      navigation.navigate('Home');
-    }else{
-      alert('Wrong password');
-    }
-  } */
+    
+  
+    
+    
+  };
+ 
+  const getData =()=>{
+  signInWithEmailAndPassword(auth, email, password)
+  .then((userCredential) => {
+    // Signed in 
+    setCheck("2");
+    const user = userCredential.user;
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+  });}
   //for show password
   const navigation= useNavigation();
   return (
@@ -52,18 +66,18 @@ const Login =()=>{
       <View style={styles.logincontainer}>
         <Text style={styles.label}>Email</Text>
         <TextInput style={styles.input} value={email} onChangeText={text=>{setemail(text)}}/>
-        {/* {badEmail==true && (<Text style={{color:'red',  marginTop:5,fontSize: 12}}>Please enter email id</Text>)}
-         */}
+         {badEmail==true && (<Text style={{color:'red',  marginTop:5,fontSize: 12}}>Please enter email id</Text>)}
+         
         <Text style={styles.label1}>Password</Text>
         <View style={styles.input1}>
         <TextInput secureTextEntry={passwordVisibility} value={password} onChangeText={text => setPassword(text) } style={{width:'85%'}}/>
         <Pressable onPress={handlePasswordVisibility}><Image source={require('../images/eye.png')} style={{alignSelf:'flex-end',marginTop:13}}/></Pressable>
         </View>
-        {/* {badPassword==true && (<Text style={{color:'red',  marginTop:5,fontSize: 12}}>Please enter password</Text>)}
-         */}
+         {badPassword==true && (<Text style={{color:'red',  marginTop:5,fontSize: 12}}>Please enter password</Text>)}
+         
         <TouchableOpacity onPress={()=>navigation.navigate("ForgetPassword")}><Text style={styles.forgotpass}>Forgot Password?</Text></TouchableOpacity>
 
-        <ProfilingButton title="LOG IN" onPress={()=>navigation.navigate('Home')}/>
+        <ProfilingButton title="LOG IN" onPress={()=>{validate();}}/>
 
         <TouchableOpacity onPress={()=>navigation.navigate("Signup")}><Text style={styles.text}>SIGN UP</Text></TouchableOpacity>
         <Text style={styles.border}></Text>
