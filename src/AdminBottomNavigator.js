@@ -14,6 +14,8 @@ import Icon3 from 'react-native-vector-icons/FontAwesome';
 import AdminDashboard from './Screens/Admin/AdminDashboard';
 import OrderHistory from './Screens/Admin/OrderHistory';
 import ProductList from './Screens/Admin/ProductList';
+import ProductOrder from './Screens/Admin/ProductOrder';
+
 const Tab = createBottomTabNavigator();
 const AdminBottomNavigator= () => {
 
