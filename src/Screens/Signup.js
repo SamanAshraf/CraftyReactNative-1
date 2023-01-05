@@ -5,7 +5,12 @@ import { useTogglePasswordVisibility2 } from '../Components/useTogglePasswordVis
 import ProfilingHeader from '../Components/ProfilingHeader';
 import ProfilingButton from '../Components/ProfilingButton';
 import { useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
+import { auth,db } from '../firebase';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { ref } from "firebase/database";
+
+import { set } from 'firebase/database';
 
 const Signup =()=>{
     const { passwordVisibility, handlePasswordVisibility } =
@@ -24,8 +29,11 @@ const Signup =()=>{
   const [badPassword, setBadPassword] = useState(false);
   const [badConfirmPassword, setBadConfirmPassword] = useState(false);
   const [comparisonCheck, setComparisonCheck] = useState(false);
+  const [check,setcheck] =useState('0');
 
   const validate =()=>{
+
+    
     if (name ==''){
       setBadName(true);
     }else{
@@ -46,34 +54,78 @@ const Signup =()=>{
               setComparisonCheck(true);
             }else{
               setComparisonCheck(false);
-              saveData();
+                registerUser();
+                
+              
+        
+              
+              
 
             }
           }
         }
       }
     }
+
     
-    
-    
+    /* 
     setTimeout(()=>{
       if(badName==false && badEmail==false && badPassword==false && badConfirmPassword==false){
       }
-    },2000);
+    },2000); */
 
-    
   };
-
-  const saveData =async ()=>{
+  const registerUser=()=>{
+//    const auth = getAuth();
+      const a=1;
+   createUserWithEmailAndPassword(auth, email, confirmPassword)
+  .then(() => {
+    // Signed in 
+    a=2;  
+    //const user = userCredential.user;
+    // ...
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
     
-      await AsyncStorage.setItem('NAME',name);
-      await AsyncStorage.setItem('EMAIL',email);
-      await AsyncStorage.setItem('PASSWORD',password);
-      navigation.goBack();
-    
+    // ..
+  });
+  if(a===2){
+    writeUserData(email,name);
+    navigation.navigate('Login');
   }
+  
+}
+function writeUserData(email, name) {
+  set(ref(db, 'users/' + "123"), {
+    name: name,
+    email: email,
+    
+  });
+}
 
-  return (
+  
+/*   const registerUser = () => {
+    auth.createUserWithEmailAndPassword(email,confirmPassword).
+     
+     then((response) => console.log("Signed in with : ", email)).
+     
+     catch((error) => 
+     
+     {
+       console.log("Error : ", error.message)
+       //console.log(email)
+     })
+ /* 
+     database.ref("/users/").push(
+       {
+         firstName: "Uzair",
+         lastName: "Ahmed"
+       }
+     ) 
+   }
+ */  return (
     <View style={styles.container}>
    
       <ProfilingHeader/>
