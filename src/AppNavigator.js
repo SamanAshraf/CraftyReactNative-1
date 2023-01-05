@@ -22,6 +22,11 @@ import Cart from './Screens/Cart';
 import Product from './Screens/Product';
 import Order from './Screens/Order';
 import Shipping from './Screens/Shipping';
+import ProductOrder from './Screens/Admin/ProductOrder';
+import AddProduct from './Screens/Admin/AddProduct';
+import Checkout from './Screens/Checkout';
+import Edit from './Screens/Edit';
+import EditProduct from './Screens/Admin/EditProduct';
 
 const Stack = createNativeStackNavigator();
 const AppNavigator= () => {
@@ -41,9 +46,15 @@ const AppNavigator= () => {
         <Stack.Screen name="AdminLogin" component={AdminLogin} options={{ headerShown: false }}/>      
         <Stack.Screen name="Congrats" component={Congrats} options={{ headerShown: false }}/>      
         <Stack.Screen name="Order" component={Order} options={{ headerShown: false }}/>      
-        <Stack.Screen name="Shipping" component={Shipping} options={{ headerShown: false }}/>      
+        <Stack.Screen name="Shipping" component={Shipping} options={{ headerShown: false }}/> 
+        <Stack.Screen name="AddProduct" component={AddProduct} options={{ headerShown: false }}/> 
+        <Stack.Screen name="Checkout" component={Checkout} options={{ headerShown: false }}/> 
+        <Stack.Screen name="Edit" component={Edit} options={{ headerShown: false }}/> 
+        <Stack.Screen name="EditProduct" component={EditProduct} options={{ headerShown: false }}/> 
+
         
         <Stack.Screen name="AdminDashboard" component={AdminBottomNavigator} options={{ headerShown: false }}/>      
+        <Stack.Screen name="ProductOrder" component={ProductOrder} options={{ headerShown: false }}/>      
         
 
         <Stack.Screen name="Home" component={BottomNavigator} options={{ headerShown: false }}/>

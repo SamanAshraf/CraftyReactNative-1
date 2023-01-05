@@ -14,7 +14,7 @@ const ProductList =()=>{
         <Text style={styles.title}>Products</Text>
         
       </View>
-      <TouchableOpacity style={styles.addbutton}>
+      <TouchableOpacity style={styles.addbutton} onPress={()=>navigation.navigate('AddProduct')}>
         <View style={{flexDirection:'row', alignItems:'center',justifyContent:'center',marginTop:'2%'}}>
         <View style={styles.adddesign}><Icon name="box" size={18} color={'#FFFFFF'}/></View>
         <Text style={styles.titlee}>Add Product</Text>
@@ -26,7 +26,7 @@ const ProductList =()=>{
           
     
         <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-evenly'}}>
-        <TouchableOpacity onPress={()=>navigation.navigate('Product')}>
+        <TouchableOpacity onPress={()=>navigation.navigate('EditProduct')} >
         <View style={{marginRight:10}}>
         <Image source={require('../../images/lampp.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
         <View style={{flexDirection:'row'}}>
@@ -39,7 +39,7 @@ const ProductList =()=>{
             </TouchableOpacity>
             
         </View>
-        
+    
           
         </View>
         </TouchableOpacity>

@@ -10,7 +10,12 @@ import Icon3 from 'react-native-vector-icons/Ionicons';
 import AdminDashboard from './Screens/Admin/AdminDashboard';
 import OrderHistory from './Screens/Admin/OrderHistory';
 import ProductList from './Screens/Admin/ProductList';
+<<<<<<< HEAD
+import ProductOrder from './Screens/Admin/ProductOrder';
+
+=======
 import Profile from './Screens/Admin/Profile';
+>>>>>>> acc6b4abeb319bb66e90cf9416bbe87424fb4792
 const Tab = createBottomTabNavigator();
 const AdminBottomNavigator= () => {
 
