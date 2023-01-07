@@ -1,27 +1,33 @@
 import { StyleSheet, Text, View , Image} from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect,useState } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Splash = () => {
-  
+  const [abc, setAbc] = useState("");
+
   const navigation= useNavigation();
   useEffect(()=>{
     setTimeout(() => {
-        //getData();
-        navigation.navigate('GetStarted');
+        getData();
     }, 3000);
   },[]);
-  /* 
+  
   const getData =async ()=>{
-    const email = await AsyncStorage.getItem('EMAIL');
-    if (email!=='' || email !== null || email !==undefined){
-      navigation.navigate('Home');
+    const Check = await AsyncStorage.getItem('Check');
+    const userId = await AsyncStorage.getItem('userId');
+    setAbc(userId);
+    if (userId!=='' || userId !== null || userId !==undefined){
+      navigation.navigate('Login');
+    }else if(Check==="true"){
+        navigation.navigate('Login');
     }else{
-      navigation.navigate('GetStarted');
+        navigation.navigate('GetStarted');
     }
+      
+    
   };
- */
+ 
   return (
 
       <View style={styles.container}>
@@ -30,7 +36,7 @@ const Splash = () => {
           source={require('../images/splash.png')}  
         style={{ alignSelf:"center", 
         justifyContent:"center"}}/>
-      <Text style={styles.text}>Crafty</Text>
+      <Text style={styles.text}>Crafty {abc}</Text>
       </View>
       </View>
   

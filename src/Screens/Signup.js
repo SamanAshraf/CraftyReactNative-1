@@ -30,6 +30,7 @@ const Signup =()=>{
   const [badConfirmPassword, setBadConfirmPassword] = useState(false);
   const [comparisonCheck, setComparisonCheck] = useState(false);
   const [check,setcheck] =useState('0');
+	const [err, setErr] = useState('');
 
   const validate =()=>{
 
@@ -68,37 +69,23 @@ const Signup =()=>{
     }
 
     
-    /* 
-    setTimeout(()=>{
-      if(badName==false && badEmail==false && badPassword==false && badConfirmPassword==false){
-      }
-    },2000); */
-
   };
   const registerUser=()=>{
 //    const auth = getAuth();
-      const a=1;
    createUserWithEmailAndPassword(auth, email, confirmPassword)
-  .then(() => {
-    // Signed in 
-    a=2;  
-    //const user = userCredential.user;
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    
-    // ..
-  });
-  if(a===2){
-    writeUserData(email,name);
+  .then(userCredential => {
+    writeUserData(email,name,userCredential.user.uid);
     navigation.navigate('Login');
-  }
+
+  })
+  .catch(error => {
+    setErr("Email address already in use");
+  });
+ 
   
 }
-function writeUserData(email, name) {
-  set(ref(db, 'users/' + "123"), {
+function writeUserData(email, name,id) {
+  set(ref(db, 'users/' + id), {
     name: name,
     email: email,
     
@@ -136,6 +123,7 @@ function writeUserData(email, name) {
       </View>
 
       <View style={styles.logincontainer}>
+        <Text style={{color:'red'}}>{err}</Text>  
         <Text style={styles.label}>Name</Text>
         <TextInput style={styles.input} value={name} onChangeText={text=> setname(text)}/>
         {badName==true && (<Text style={{color:'red',fontSize:12, marginTop:5}}>Please enter name</Text>)}

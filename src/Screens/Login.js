@@ -17,6 +17,7 @@ const Login =()=>{
   const [badEmail, setBadEmail] = useState(false);
   const [badPassword, setBadPassword] = useState(false);
   const [check, setCheck] = useState("1");
+  const [err, setErr] = useState('');
 
   const validate =()=>{
     if (email ==''){
@@ -28,9 +29,7 @@ const Login =()=>{
       }else{
         setBadPassword(false);
         getData();
-        if(check==="2"){
-          navigation.navigate('Home');
-        }
+        
       }
     }
     
@@ -38,18 +37,23 @@ const Login =()=>{
     
     
   };
- 
+  const storeData = async value => {
+		try {
+			await AsyncStorage.setItem('userId', value);
+		} catch (e) {
+			throw e;
+		}
+	};
+
   const getData =()=>{
   signInWithEmailAndPassword(auth, email, password)
-  .then((userCredential) => {
-    // Signed in 
-    setCheck("2");
-    const user = userCredential.user;
-    // ...
+  .then(userCredential => {
+    storeData(userCredential.user.uid);
+    navigation.navigate('Home',{userId:userCredential.user});
+    
   })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
+  .catch(error => {
+    setErr('Invalid Credentials!');
   });}
   //for show password
   const navigation= useNavigation();
@@ -64,6 +68,7 @@ const Login =()=>{
       </View>
 
       <View style={styles.logincontainer}>
+        <Text style={{color:'red', marginBottom:5, fontWeight:'bold'}}>{err}</Text>
         <Text style={styles.label}>Email</Text>
         <TextInput style={styles.input} value={email} onChangeText={text=>{setemail(text)}}/>
          {badEmail==true && (<Text style={{color:'red',  marginTop:5,fontSize: 12}}>Please enter email id</Text>)}

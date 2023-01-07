@@ -9,7 +9,7 @@ const GetStarted =()=>{
   
   const saveData =async ()=>{
     
-  await AsyncStorage.setItem('Check',check);
+  await AsyncStorage.setItem('Check',"true");
     
   
 }
@@ -29,7 +29,8 @@ const GetStarted =()=>{
           Choose from wide range of
 premium quality wooden furniture
           </Text>
-          <TouchableOpacity style={styles.Button} onPress={()=> navigation.navigate('Login')}><Text style={styles.buttontext}>Get Started</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.Button} onPress={()=> {saveData();
+            navigation.navigate('Login'); }}><Text style={styles.buttontext}>Get Started</Text></TouchableOpacity>
         </View>
 
       </ImageBackground>

@@ -9,7 +9,17 @@ const AdminLogin =()=>{
     const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('');
+  const [err, setErr] = useState('');
  
+  const authenticate =()=>{
+    if(email==="Admin@gmail.com" && password==="admin123"){
+      navigation.navigate('AdminDashboard');
+    }else{
+      navigation.navigate('AdminDashboard');
+      setErr("Invalid Credentials");
+    }
+  }
   //for show password
   const navigation= useNavigation();
   return (
@@ -23,8 +33,9 @@ const AdminLogin =()=>{
       </View>
 
       <View style={styles.logincontainer}>
+        <Text style={{color:'red', marginBottom:5, fontWeight:'bold'}}>{err}</Text>
         <Text style={styles.label}>Email</Text>
-        <TextInput style={styles.input}/>
+        <TextInput style={styles.input} onChangeText={text => setEmail(text)}/>
         
         <Text style={styles.label1}>Password</Text>
 
@@ -35,7 +46,7 @@ const AdminLogin =()=>{
       
         <TouchableOpacity><Text style={styles.forgotpass}>Forgot Password?</Text></TouchableOpacity>
 
-        <ProfilingButton title="LOG IN" onPress={()=>navigation.navigate('AdminDashboard')}/>
+        <ProfilingButton title="LOG IN" onPress={()=>{authenticate();}}/>
 
       </View>
      
