@@ -5,9 +5,22 @@ import { useNavigation } from '@react-navigation/native';
 import Icon  from 'react-native-vector-icons/Feather';
 import Icon1  from 'react-native-vector-icons/Ionicons';
 import Icon2  from 'react-native-vector-icons/Entypo';
+import { BackHandler } from 'react-native';
+import { useEffect } from 'react';
 const AdminDashboard =()=>{
  
   const navigation= useNavigation();
+  const backAction = () => {
+    {
+      onPress: () => null
+    }
+  return true;
+};
+useEffect(() => {
+  BackHandler.addEventListener("hardwareBackPress", backAction);
+  return () =>
+    BackHandler.removeEventListener("hardwareBackPress", backAction);
+}, []);
   return (
     <View style={styles.container}>
         <View style={styles.header}>

@@ -39,8 +39,6 @@ const Splash = () => {
       <Text style={styles.text}>Crafty {abc}</Text>
       </View>
       </View>
-  
-    
   );
 }
 

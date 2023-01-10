@@ -10,8 +10,6 @@ const GetStarted =()=>{
   const saveData =async ()=>{
     
   await AsyncStorage.setItem('Check',"true");
-    
-  
 }
 
   return (
