@@ -5,7 +5,6 @@ import ProfilingButton from '../Components/ProfilingButton';
 import { useNavigation } from '@react-navigation/native';
 import { auth } from '../firebase';
 import { sendPasswordResetEmail } from 'firebase/auth';
-import { ToastAndroid } from 'react-native';
 
 
 const ForgetPassword =()=>{  
