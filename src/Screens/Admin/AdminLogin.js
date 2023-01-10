@@ -40,7 +40,7 @@ const AdminLogin =()=>{
         <Text style={styles.label1}>Password</Text>
 
         <View style={styles.input1}>
-        <TextInput secureTextEntry={passwordVisibility} value={password} onChangeText={text => setPassword(text) } style={{width:'85%'}}/>
+        <TextInput secureTextEntry={passwordVisibility} value={password} onChangeText={text => setPassword(text) } style={{width:'85%',color:'black'}}/>
         <Pressable onPress={handlePasswordVisibility}><Image source={require('../../images/eye.png')} style={{alignSelf:'flex-end',marginTop:13}}/></Pressable>
         </View>
       
@@ -104,12 +104,14 @@ const styles = StyleSheet.create({
     height: 45,
     borderBottomWidth: 1,
     borderBottomColor: '#CEBB9E',
+    color:'black'
   },
   input1:{
     flexDirection:'row',
     height: 45,
     borderBottomWidth: 1,
     borderBottomColor: '#CEBB9E',
+    color:'black'
   },
   forgotpass:{
     color: '#62442B',

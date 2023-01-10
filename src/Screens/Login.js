@@ -72,7 +72,7 @@ const Login =()=>{
          
         <Text style={styles.label1}>Password</Text>
         <View style={styles.input1}>
-        <TextInput secureTextEntry={passwordVisibility} value={password} onChangeText={text => setPassword(text) } style={{width:'85%'}}/>
+        <TextInput secureTextEntry={passwordVisibility} value={password} onChangeText={text => setPassword(text) } style={{width:'85%',color:'black'}}/>
         <Pressable onPress={handlePasswordVisibility}><Image source={require('../images/eye.png')} style={{alignSelf:'flex-end',marginTop:13}}/></Pressable>
         </View>
          {badPassword==true && (<Text style={{color:'red',  marginTop:5,fontSize: 12}}>Please enter password</Text>)}
@@ -140,6 +140,7 @@ const styles = StyleSheet.create({
     height: 45,
     borderBottomWidth: 1,
     borderBottomColor: '#CEBB9E',
+    color:'black'
   },
   input1:{
     flexDirection:'row',

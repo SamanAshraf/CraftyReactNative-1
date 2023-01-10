@@ -33,13 +33,13 @@ const ResetPassword =()=>{
         <Text style={styles.label1}>Password</Text>
 
         <View style={styles.input1}>
-        <TextInput secureTextEntry={passwordVisibility} value={password} onChangeText={text => setPassword(text) } style={{width:'85%'}}/>
+        <TextInput secureTextEntry={passwordVisibility} value={password} onChangeText={text => setPassword(text) } style={{width:'85%',color:'black'}}/>
         <Pressable onPress={handlePasswordVisibility}><Image source={require('../images/eye.png')} style={{alignSelf:'flex-end',marginTop:13}}/></Pressable>
         </View>
 
         <Text style={styles.label1}>Confirm Password</Text>
         <View style={styles.input1}>
-        <TextInput secureTextEntry={confirmPasswordVisibility} value={confirmPassword} onChangeText={text => setConfirmPassword(text) } style={{width:'85%'}}/>
+        <TextInput secureTextEntry={confirmPasswordVisibility} value={confirmPassword} onChangeText={text => setConfirmPassword(text) } style={{width:'85%',color:'black'}}/>
         <Pressable onPress={handleConfirmPasswordVisibility}><Image source={require('../images/eye.png')} style={{alignSelf:'flex-end',marginTop:13}}/></Pressable>
         </View>
       

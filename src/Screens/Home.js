@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View , Image, Pressable, TouchableOpacity, ScrollView, FlatList} from 'react-native';
+import { StyleSheet, Text, View , Image, Pressable, TouchableOpacity, ScrollView, FlatList, Button} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import React, {useEffect, useState, useContext} from 'react';
 import Icon  from 'react-native-vector-icons/Feather';
@@ -6,7 +6,6 @@ import Icon1  from 'react-native-vector-icons/Ionicons';
 import { Product } from '../Components/Product';
 import { getProducts, getProduct, getProductC } from '../ProductsService';
 import { CartContext } from '../CartContext';
-import { BackHandler } from 'react-native';
 
 const Home =()=>{
   const navigation= useNavigation();
@@ -18,40 +17,31 @@ const Home =()=>{
   const [col3, setcolor3] = useState('#CEBB9E');
   const [col4, setcolor4] = useState('#CEBB9E');
   const [col5, setcolor5] = useState('#CEBB9E');
-  
+  const [dataa, setDataa] = useState([]);
+  const [key, setKey] = useState();
   
   const {addItemToCart,setItems} = useContext(CartContext);
-  const backAction = () => {
-    {
-      onPress: () => null
-    }
-  return true;
-};
-
-useEffect(() => {
-  BackHandler.addEventListener("hardwareBackPress", backAction);
-
-  return () =>
-    BackHandler.removeEventListener("hardwareBackPress", backAction);
-}, []);
+  
 
   function renderProduct({item: product}) {
     return (
       <Product {...product} 
       onPress={() => {
         navigation.navigate('Product', {
-          productId: product.id,});
+          productId: product.id, data:dataa});
       }} 
       onPress1={()=>{
-        const product1 = getProduct(product.id);
+        const product1 = findProduct(product.id);
           setItems((prevItems) => {
             const item = prevItems.find((item) => (item.id == product.id));
             let id =product.id;
             if(!item) {
+              //console.log(product1.price)
                 return [...prevItems, {
                     id,
                     qty: 1,
                     product,
+                    
                     totalPrice: product1.price 
                 }];
             }
@@ -59,7 +49,7 @@ useEffect(() => {
                 return prevItems.map((item) => {
                   if(item.id == id) {
                     item.qty++;
-                    item.totalPrice += product1.price;
+                    item.totalPrice += product1.price;   
                   }
                   return item;
                 });
@@ -71,16 +61,20 @@ useEffect(() => {
   }
 
   const [products, setProducts] = useState([]);
-  
+    
   useEffect(() => {
-    setProducts(getProducts());
-  });
-  
+    setTimeout(() => {
+      getDataa();
+      setProducts(dataa);
+      console.log('Data retrived');
+  }, 1000);
+    setProducts(dataa);
+  },[dataa]); 
+  // alpha101
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        
-        <Icon1 name='search-outline' color={'#62442B'} size={25} />
+            <Icon1 name='search-outline' color={'#62442B'} size={25} />
         <Text style={styles.title}>CRAFTY</Text>
         <Pressable onPress={()=>navigation.navigate('Cart')}><Icon name='shopping-cart' color={'#62442B'} size={25}/></Pressable>
         
@@ -163,7 +157,7 @@ useEffect(() => {
                     
       {data === '1'?
         
-        <View style={{flexDirection:'row'}}>
+        <View style={{height:'80%', width:'100%'}}>
             
           <FlatList
             contentContainerStyle={styles.productsListContainer}
@@ -174,7 +168,7 @@ useEffect(() => {
         </View> 
       : data==='2' ? 
         
-      <View style={{flexDirection:'row'}}>
+      <View style={{flexDirection:'row',height:'80%'}}>
             
       <FlatList
         contentContainerStyle={styles.productsListContainer}
@@ -184,7 +178,7 @@ useEffect(() => {
         />  
       </View> 
       : data==='3' ?
-      <View style={{flexDirection:'row'}}>
+      <View style={{flexDirection:'row',height:'80%'}}>
             
         <FlatList
         contentContainerStyle={styles.productsListContainer}
@@ -195,7 +189,7 @@ useEffect(() => {
       </View> 
         : data==='4'?
         
-        <View style={{flexDirection:'row'}}>
+        <View style={{flexDirection:'row',height:'80%'}}>
             
           <FlatList
             contentContainerStyle={styles.productsListContainer}
@@ -206,7 +200,7 @@ useEffect(() => {
         </View> 
          : data==='5'?
          
-        <View style={{flexDirection:'row'}}>
+        <View style={{flexDirection:'row',height:'80%'}}>
             
         <FlatList
           contentContainerStyle={styles.productsListContainer}
@@ -216,7 +210,7 @@ useEffect(() => {
           />  
         </View>             
          :data==='6'?
-         <View style={{flexDirection:'row'}}>
+         <View style={{flexDirection:'row',height:'80%'}}>
              
          <FlatList
            contentContainerStyle={styles.productsListContainer}
@@ -273,8 +267,8 @@ const styles = StyleSheet.create({
   },
   productsListContainer:{
     flexDirection:'row',
-    flexWrap:'wrap',
-    marginLeft:15
+    marginLeft:15,
+    flexWrap:'wrap'
   },
   Button:{
     backgroundColor: '#62442B',

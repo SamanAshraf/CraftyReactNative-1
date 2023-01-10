@@ -3,35 +3,38 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon3 from 'react-native-vector-icons/MaterialIcons';
 import SelectDropdown from 'react-native-select-dropdown';
-import { getDatabase, ref, set } from "firebase/database";
-/* import ImagePicker,{
+import { getDatabase, ref, set,push } from "firebase/database";
+import {
   launchCamera,
-  launchImageLibrary, showImagePicker
+  launchImageLibrary
 } from 'react-native-image-picker/src';
- */
-import ImagePicker from 'react-native-image-picker';
 import React, {useState} from 'react';
+import {uploadImage} from './Uploadimages';
 
 
 const AddProduct =()=>{
   const navigation= useNavigation();
   const categories = ["Chair", "Table", "Lamp", "Bed","ArmChair"];
- const [Title, setTitle] = useState('');
+  const [Title, setTitle] = useState('');
   const [Price, setPrice]= useState(0);
   const [Description, setDescription]= useState('');
   const [Category, setCategory]= useState('');
   const [Quantity, setQuantity]= useState(1);
-  const [filePath, setFilePath] = useState({});
-  /* 
-  const chooseFile = (type) => {
+  const [filePath, setFilePath] = useState('');
+  const [fileName, setFileName] = useState('');
+  const [uploading, setUploading] = useState(false);
+   
+  const chooseFile = () => {
     let options = {
-      mediaType: type,
+      mediaType: 'photo',
       maxWidth: 300,
       maxHeight: 550,
       quality: 1,
+      includeBase64: true,
+    
     };
     try{
-      launchImageLibrary(options, (response) => {
+      launchImageLibrary(options, response => {
         console.log('Response = ', response);
   
         if (response.didCancel) {
@@ -46,61 +49,31 @@ const AddProduct =()=>{
         } else if (response.errorCode == 'others') {
           alert(response.errorMessage);
           return;
+        }else {
+          setFilePath(response.assets[0].uri);
+          console.log(filePath);
+          uploadImage(filePath);
         }
-        console.log('base64 -> ', response.base64);
-        console.log('uri -> ', response.uri);
-        console.log('width -> ', response.width);
-        console.log('height -> ', response.height);
-        console.log('fileSize -> ', response.fileSize);
-        console.log('type -> ', response.type);
-        console.log('fileName -> ', response.fileName);
-        setFilePath(response);
+        
       });
     }catch(error){
       console.log(error);
     }
   };
- */
-  const selectFile = () => {
-    var options = {
-      title: 'Select Image',
-      customButtons: [
-        { 
-          name: 'customOptionKey', 
-          title: 'Choose file from Custom Option' 
-        },
-      ],
-      storageOptions: {
-        skipBackup: true,
-        path: 'images',
-      },
-    };
-    ImagePicker.showImagePicker(options, res => {
-      console.log('Response = ', res);
-      if (res.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (res.error) {
-        console.log('ImagePicker Error: ', res.error);
-      } else if (res.customButton) {
-        console.log('User tapped custom button: ', res.customButton);
-        alert(res.customButton);
-      } else {
-        let source = res;
-        setFilePath(res);
-      }
-      console.log(filePath.path);
-    });
-  };
-
+ 
   function writeData() {
     const pId = Math.floor(Math.random() * 100000000) + 100;
     const db = getDatabase();
-    set(ref(db, 'products/' + pId), {
-      title: Title,
+    const pListRef = ref(db, 'products/');
+    const newPRef = push(pListRef);
+    set(newPRef, {
+      id: pId,
+      name: Title,
       price: Price,
       description : Description,
       category : Category,
-      quantity : Quantity
+      quantity : Quantity,
+      image: filePath.substring(filePath.lastIndexOf('/')+1),
     });
   }  
     return (
@@ -111,6 +84,7 @@ const AddProduct =()=>{
         </TouchableOpacity>
         <Text style={styles.title}>Add Product</Text>
       </View>
+      <ScrollView showsVerticalScrollIndicator={false}>
       <View style={{justifyContent:'center',alignItems:'center'}}>
       <TextInput style={styles.input} placeholder="Title*" placeholderTextColor={'#62442B'} onChangeText={text=>{setTitle(text)}}/>
       <TextInput style={styles.input}   placeholder="Price*"  placeholderTextColor={'#62442B'} onChangeText={text=>{setPrice(text)}}/>
@@ -130,7 +104,7 @@ const AddProduct =()=>{
       <Image 
           source={{ uri: filePath.path}} 
           style={{width: 100, height: 100}} />
-      <View style={{flexDirection:'row',marginRight:20}}> 
+      <View style={{flexDirection:'row',marginRight:20,marginTop:20}}> 
         <Text style={{color:'#62442B',marginTop:5,marginRight:100}}> Quantity </Text>
       <View style={{flexDirection:'row'}}>
         <TouchableOpacity  style = {{backgroundColor: '#CEBB9E', width: 30, height: 30, justifyContent: 'center', alignItems:'center', borderRadius:6, elevation:6}} onPress={()=>setQuantity(Quantity+1)}><Icon name='plus' size={15} style={{color:'#62442B'}}></Icon></TouchableOpacity>
@@ -139,13 +113,14 @@ const AddProduct =()=>{
         </View>
         </View>
         
-        <TouchableOpacity style={styles.Button1}  onPress={()=> selectFile()}>
+        <TouchableOpacity style={styles.Button1}  onPress={()=> chooseFile()}>
           <Icon3 name='drive-folder-upload' color={'#62442B'} size={30} style={{marginTop:15, marginRight:10}}/>
         <Text style={styles.buttontext1}>Upload Pictures</Text></TouchableOpacity>
       <TouchableOpacity onPress={()=>writeData()}style={styles.Button}><Text style={styles.buttontext}>Add Product</Text></TouchableOpacity>
       
 
       </View>
+      </ScrollView>
     
     </View>
   );
@@ -162,7 +137,8 @@ const styles = StyleSheet.create({
         marginTop:30,
       backgroundColor:'#FDF4E7',
       fontSize:16,
-      fontFamily: 'NunitoSans-SemiBold'
+      fontFamily: 'NunitoSans-SemiBold',
+      color:'black'
  },
     textarea: {
         height:124,
@@ -175,7 +151,8 @@ const styles = StyleSheet.create({
         backgroundColor:'#FDF4E7',
         borderColor:'#62442B',
         fontSize:16,
-      fontFamily: 'NunitoSans-SemiBold'
+      fontFamily: 'NunitoSans-SemiBold',
+      color:'black'
 
 
     },

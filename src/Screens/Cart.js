@@ -5,11 +5,37 @@ import { useNavigation } from '@react-navigation/native';
 import { CartContext } from '../CartContext';
 import React, {useContext, useState,useEffect} from 'react';
 import { getProduct } from '../ProductsService';
+import { getDatabase, ref, onValue, child } from "firebase/database";
+
 const Cart =({navigation})=>{
 
   
   const {items, setItems, getItemsCount, getTotalPrice, setItemQuantity} = useContext(CartContext);
-
+  const [dataa, setDataa] = useState([]);
+  
+  getDataa=()=>{
+    const db = getDatabase();
+    const dbRef = ref(db, '/products');
+    let count =0;
+    const array =[];
+    onValue(dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        array[count]=childData;
+        console.log(array[count]);
+        console.log(count);
+        count =count +1;
+        // ...
+      });
+      setDataa(array);
+    }, {
+      onlyOnce: true
+    });
+  }
+  findProduct=(id)=>{
+    return dataa.find((p) => (p.id == id))
+  }
   function Totals() {
     let [total, setTotal] = useState(0);
     useEffect(() => {
@@ -50,12 +76,13 @@ const Cart =({navigation})=>{
           </Text>
           <View style = {styles.plus}>
                   <TouchableOpacity onPress={()=>{
-                    const product = getProduct(item.id);
+                    const product = findProduct(item.id);
                     setItems((prevItems) => {
+                      console.log(item.product.price);
                           return prevItems.map((item1) => {
                             if(item1.id == item.id) {
                               item1.qty++;
-                              item1.totalPrice += product.price;
+                              item1.totalPrice += item.product.price;
                             }
                             return item1;
                           });
@@ -64,12 +91,12 @@ const Cart =({navigation})=>{
                   <Text style = {{marginTop: 5, fontFamily: 'NunitoSans-SemiBold', marginRight: 7, marginLeft:7, color: '#62442B',letterSpacing: 2}}> {item.qty} </Text>
                   
                   <TouchableOpacity onPress={()=>{
-                    const product = getProduct(item.id);
+                    const product = findProduct(item.id);
                     setItems((prevItems) => {
                           return prevItems.map((item1) => {
                             if(item1.id == item.id && item1.qty>0) {
                               item1.qty--;
-                              item1.totalPrice -= product.price;
+                              item1.totalPrice -= item.product.price;
                             }
                             if(item.qty===0){
                               const newItems = items.filter((abc) => abc.id !== item.id)

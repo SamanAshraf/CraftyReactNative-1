@@ -6,16 +6,27 @@ import Icon1 from 'react-native-vector-icons/AntDesign';
 import { useNavigation } from '@react-navigation/native';
 import { getProduct } from '../ProductsService';
 import { CartContext } from '../CartContext';
+import { getStorage, ref, getDownloadURL } from "firebase/storage"; 
 
 const Product = ({route}) => { 
     const navigation= useNavigation();
-    const { productId } = route.params;
+    const { productId,data } = route.params;
     const [product, setProduct] = useState({});
+    const [value,setValue]=useState('https://www.survivorsuk.org/wp-content/uploads/2017/01/no-image.jpg');
   
     const {addItemToCart} = useContext(CartContext);
-  
+    const findProduct=()=>{
+      data.find((product) => (product.id == id))
+    }
     useEffect(() => {
-      setProduct(getProduct(productId));
+      setProduct(data.find((product) => (product.id == productId)));
+      const func= async ()=>{
+        const storage = getStorage();
+        await getDownloadURL(ref(storage, product.image)).then((x)=>{
+          setValue(x);
+        })
+      }
+      func(); 
     });
   
     function onAddToCart() {
@@ -29,13 +40,13 @@ const Product = ({route}) => {
         <Swiper dotStyle={{width:40, height:5}} activeDotStyle={{width:40, height:5}} dotColor={'#F0F0F0'} activeDotColor={'#303030'}>
         
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',}}>
-        <Image source={product.image} style={{width:400, height:480}} />
+        <Image source={{uri: value}} style={{width:400, height:480}} />
         </View>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',}}>
-        <Image source={product.image} style={{width:400, height:480}}/>
+        <Image source={{uri: value}} style={{width:400, height:480}}/>
         </View>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center',}}>
-        <Image source={product.image}style={{width:400, height:480}} />
+        <Image source={{uri: value}}style={{width:400, height:480}} />
         </View>
         </Swiper>
         

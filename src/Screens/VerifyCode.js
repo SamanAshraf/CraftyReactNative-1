@@ -20,10 +20,10 @@ const VerifyCode =()=>{
         </View>
 
         <View style={styles.box} >
-            <TextInput style={styles.textbox}> </TextInput>
-            <TextInput style={styles.textbox}> </TextInput>
-            <TextInput style={styles.textbox}> </TextInput>
-            <TextInput style={styles.textbox}> </TextInput>
+            <TextInput style={styles.textbox} keyboardType="numeric"> </TextInput>
+            <TextInput style={styles.textbox} keyboardType="numeric"> </TextInput>
+            <TextInput style={styles.textbox} keyboardType="numeric"> </TextInput>
+            <TextInput style={styles.textbox} keyboardType="numeric"> </TextInput>
         </View>
 
       </View>
@@ -63,13 +63,15 @@ textbox:{
     width: 60,
     height: 60,
     backgroundColor: '#FDF4E7',
-    borderRadius:12
+    borderRadius:12,
+    color:'black'
 },
 box :{
   flexDirection:'row',
   justifyContent:'space-between',
   marginRight:'10%',
   marginTop:'10%',
+  
 },
 title1:{
     color:'#62442B',

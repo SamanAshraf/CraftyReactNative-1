@@ -84,6 +84,7 @@ const styles = StyleSheet.create({
     height: 45,
     borderBottomWidth: 1,
     borderBottomColor: '#CEBB9E',
+    color:'black'
   },
   input1:{
     flexDirection:'row',
