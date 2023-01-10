@@ -6,6 +6,7 @@ import Icon1  from 'react-native-vector-icons/Ionicons';
 import { Product } from '../Components/Product';
 import { getProducts, getProduct, getProductC } from '../ProductsService';
 import { CartContext } from '../CartContext';
+import { BackHandler } from 'react-native';
 
 const Home =()=>{
   const navigation= useNavigation();
@@ -20,7 +21,19 @@ const Home =()=>{
   
   
   const {addItemToCart,setItems} = useContext(CartContext);
-  
+  const backAction = () => {
+    {
+      onPress: () => null
+    }
+  return true;
+};
+
+useEffect(() => {
+  BackHandler.addEventListener("hardwareBackPress", backAction);
+
+  return () =>
+    BackHandler.removeEventListener("hardwareBackPress", backAction);
+}, []);
 
   function renderProduct({item: product}) {
     return (

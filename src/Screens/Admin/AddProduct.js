@@ -130,7 +130,7 @@ const AddProduct =()=>{
       <Image 
           source={{ uri: filePath.path}} 
           style={{width: 100, height: 100}} />
-      <View style={{flexDirection:'row',marginRight:20,marginTop:20}}> 
+      <View style={{flexDirection:'row',marginRight:20}}> 
         <Text style={{color:'#62442B',marginTop:5,marginRight:100}}> Quantity </Text>
       <View style={{flexDirection:'row'}}>
         <TouchableOpacity  style = {{backgroundColor: '#CEBB9E', width: 30, height: 30, justifyContent: 'center', alignItems:'center', borderRadius:6, elevation:6}} onPress={()=>setQuantity(Quantity+1)}><Icon name='plus' size={15} style={{color:'#62442B'}}></Icon></TouchableOpacity>
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     borderRadius:6,
     elevation: 20,
-    marginTop:35,
+    marginTop:20,
 
     //for ios
     shadowColor: '#000',

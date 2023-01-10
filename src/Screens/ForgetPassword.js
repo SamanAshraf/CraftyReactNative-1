@@ -1,13 +1,25 @@
-import { StyleSheet, Text, View , Image, TouchableOpacity, TextInput, Pressable} from 'react-native';
+import { StyleSheet, Text, View , Image, TouchableOpacity, TextInput, Pressable, Alert, ToastAndroid} from 'react-native';
 import React, {useState} from 'react';
 import ProfilingHeader from '../Components/ProfilingHeader';
 import ProfilingButton from '../Components/ProfilingButton';
 import { useNavigation } from '@react-navigation/native';
+import { auth } from '../firebase';
+import { sendPasswordResetEmail } from 'firebase/auth';
+import { ToastAndroid } from 'react-native';
 
-const ForgetPassword =()=>{
-  
-  //for show password
+
+const ForgetPassword =()=>{  
   const navigation= useNavigation();
+  const [email,setEmail] = useState('');
+
+    function resetEmail(){
+       
+        auth.sendPasswordResetEmail(email).then((response)=>{
+            ToastAndroid.show("Please check your email to reset password", ToastAndroid.SHORT)
+            navigation.navigate("Login")
+        }).catch(error=> ToastAndroid.show(error.message, ToastAndroid.SHORT))
+    }
+
   return (
     <View style={styles.container}>
    
@@ -18,12 +30,11 @@ const ForgetPassword =()=>{
 
       <View style={styles.logincontainer}>
         <Text style={styles.label}>Email</Text>
-        <TextInput style={styles.input}/>
-
-        <ProfilingButton title="NEXT" onPress={()=>navigation.navigate("VerifyCode")}/>
-
+        <TextInput style={styles.input} value={email} 
+        onChangeText={setEmail} 
+        />
+        <ProfilingButton title="NEXT" onPress={resetEmail}/>
       </View>
-     
     </View>
   );
 }

@@ -24,4 +24,4 @@ var auth = initializeAuth(app, {
 auth = getAuth(app);
 
 const db = getDatabase(app);
-export { auth, db };
+export { auth, db, };
