@@ -101,9 +101,9 @@ const AddProduct =()=>{
       </SelectDropdown>
       <Icon name='down' size={25} style={{marginTop:20, marginRight:40}}/>
       </View>
-      {/* <Image 
-          source={{ uri:filePath}} 
-          style={{width: 100, height: 100}} /> */}
+      <Image 
+          source={{ uri: filePath.path}} 
+          style={{width: 100, height: 100}} />
       <View style={{flexDirection:'row',marginRight:20,marginTop:20}}> 
         <Text style={{color:'#62442B',marginTop:5,marginRight:100}}> Quantity </Text>
       <View style={{flexDirection:'row'}}>
@@ -184,7 +184,7 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     borderRadius:6,
     elevation: 20,
-    marginTop:35,
+    marginTop:20,
 
     //for ios
     shadowColor: '#000',

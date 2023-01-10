@@ -5,7 +5,6 @@ import Icon  from 'react-native-vector-icons/Feather';
 import Icon1  from 'react-native-vector-icons/EvilIcons';
 const ProductList =()=>{
   const navigation= useNavigation();
- 
 
   return (
     <View style={styles.container}>

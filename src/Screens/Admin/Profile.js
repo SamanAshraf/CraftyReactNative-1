@@ -50,7 +50,7 @@ const Profile =()=>{
       </View>
 
       </View>
-            <TouchableOpacity style={styles.Button}><Text style={styles.buttontext}><Image source={require('../../../assets/Profile/Logout.png')}/>  Logout</Text></TouchableOpacity>
+            <TouchableOpacity onPress={()=> navigation.navigate('AdminLogin')}style={styles.Button}><Text style={styles.buttontext}><Image source={require('../../../assets/Profile/Logout.png')}/> Logout</Text></TouchableOpacity>
     </View>
   );
 }

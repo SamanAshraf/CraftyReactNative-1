@@ -32,10 +32,6 @@ const Login =()=>{
         
       }
     }
-    
-  
-    
-    
   };
   const storeData = async value => {
 		try {
@@ -55,6 +51,7 @@ const Login =()=>{
   .catch(error => {
     setErr('Invalid Credentials!');
   });}
+  
   //for show password
   const navigation= useNavigation();
   return (

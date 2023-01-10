@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getDatabase, ref, onValue, get} from "firebase/database";
 import { getAuth, signOut } from "firebase/auth";
 import {db,auth} from "../firebase";
+import auth from '@react-native-firebase/auth'
+import { AuthContext } from '../navigation/AuthNavigator'
 
 const Profile =()=>{
   const navigation= useNavigation();

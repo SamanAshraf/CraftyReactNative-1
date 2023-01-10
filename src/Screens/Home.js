@@ -6,7 +6,6 @@ import Icon1  from 'react-native-vector-icons/Ionicons';
 import { Product } from '../Components/Product';
 import { getProducts, getProduct, getProductC } from '../ProductsService';
 import { CartContext } from '../CartContext';
-import { getDatabase, ref, onValue, child, get } from "firebase/database";
 
 const Home =()=>{
   const navigation= useNavigation();
@@ -23,35 +22,7 @@ const Home =()=>{
   
   const {addItemToCart,setItems} = useContext(CartContext);
   
-  const getDataa=()=>{
-    const db = getDatabase();
-    const dbRef = ref(db, '/products');
-    let count =0;
-    const array =[];
-    onValue(dbRef, (snapshot) => {
-      snapshot.forEach((childSnapshot) => {
-        const childKey = childSnapshot.key;
-        const childData = childSnapshot.val();
-        //console.log(childKey);
-        //console.log(childData);
-        //setData(childSnapshot);
-        array[count]=childData;
-        //console.log(array[count]);
-        //console.log(count);
-        count =count +1;
-      });
-      setDataa(array);
-    }, {
-      onlyOnce: true
-    });
-  }
-  const display =()=>{
-    dataa.forEach((aa)=>{console.log(aa)});
-      
-  }
-  findProduct=(id)=>{
-    return dataa.find((p) => (p.id == id))
-  }
+
   function renderProduct({item: product}) {
     return (
       <Product {...product} 
