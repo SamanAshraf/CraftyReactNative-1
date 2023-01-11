@@ -1,11 +1,19 @@
 import { StyleSheet, Text, View , Image, ImageBackground, TouchableOpacity, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Profile =()=>{
   const navigation= useNavigation();
-
+  const logout =async()=>{
+    try {
+      await AsyncStorage.setItem('AdminId', '');
+      console.log('successs');
+    } catch (e) {
+      throw e;
+    }
+    navigation.navigate('AdminLogin');
+  }
     return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -50,7 +58,7 @@ const Profile =()=>{
       </View>
 
       </View>
-            <TouchableOpacity onPress={()=> navigation.navigate('AdminLogin')}style={styles.Button}><Text style={styles.buttontext}><Image source={require('../../../assets/Profile/Logout.png')}/> Logout</Text></TouchableOpacity>
+            <TouchableOpacity onPress={()=> logout()}style={styles.Button}><Text style={styles.buttontext}><Image source={require('../../../assets/Profile/Logout.png')}/> Logout</Text></TouchableOpacity>
     </View>
   );
 }

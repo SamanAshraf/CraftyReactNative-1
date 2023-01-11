@@ -4,7 +4,7 @@ import { useTogglePasswordVisibility } from '../../Components/useTogglePasswordV
 import ProfilingHeader from '../../Components/ProfilingHeader';
 import ProfilingButton from '../../Components/ProfilingButton';
 import { useNavigation } from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const AdminLogin =()=>{
     const { passwordVisibility, rightIcon, handlePasswordVisibility } =
     useTogglePasswordVisibility();
@@ -12,15 +12,24 @@ const AdminLogin =()=>{
   const [email, setEmail] = useState('');
   const [err, setErr] = useState('');
  
-  const authenticate =()=>{
+  const authenticate =async()=>{
     if(email==="Admin@gmail.com" && password==="admin123"){
+      try {
+        await AsyncStorage.setItem('AdminId', "12345");
+        console.log('Login successs');
+      } catch (e) {
+        throw e;
+      }
+      setEmail('');
+      setPassword('');
+      setErr('');
       navigation.navigate('AdminDashboard');
     }else{
-      navigation.navigate('AdminDashboard');
+     // navigation.navigate('AdminDashboard');
       setErr("Invalid Credentials");
     }
   }
-  //for show password
+  
   const navigation= useNavigation();
   return (
     <View style={styles.container}>
@@ -35,7 +44,7 @@ const AdminLogin =()=>{
       <View style={styles.logincontainer}>
         <Text style={{color:'red', marginBottom:5, fontWeight:'bold'}}>{err}</Text>
         <Text style={styles.label}>Email</Text>
-        <TextInput style={styles.input} onChangeText={text => setEmail(text)}/>
+        <TextInput style={styles.input} value={email} onChangeText={text => setEmail(text)}/>
         
         <Text style={styles.label1}>Password</Text>
 

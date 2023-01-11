@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import Icon3 from 'react-native-vector-icons/MaterialIcons';
 import SelectDropdown from 'react-native-select-dropdown';
-import { getDatabase, ref, set,push } from "firebase/database";
+import { getDatabase, ref, set,push, update ,onValue } from "firebase/database";
 import { useEffect } from 'react';
 import {
   launchCamera,
@@ -23,7 +23,7 @@ const EditProduct =({route})=>{
   const [Category, setCategory]= useState('');
   const [Quantity, setQuantity]= useState(1);
   const [filePath, setFilePath] = useState('');
-  const [fileName, setFileName] = useState('');
+  const [key, setKey] = useState('');
   const [uploading, setUploading] = useState(false);
    
    const chooseFile = () => {
@@ -63,27 +63,67 @@ const EditProduct =({route})=>{
     }
   };
   
-  function updateData() {
-    const pId = Math.floor(Math.random() * 100000000) + 100;
+  const updateData=()=> {
+    
     const db = getDatabase();
-    const pListRef = ref(db, 'products/');
-    const newPRef = push(pListRef);
-    set(newPRef, {
-      id: pId,
-      name: Title,
-      price: Price,
-      description : Description,
-      category : Category,
-      quantity : Quantity,
-      image: filePath.substring(filePath.lastIndexOf('/')+1),
-    });
-    alert('Product Updated');
-    setTitle('');
-    setCategory('Select Category');
-    setPrice(0);
-    setDescription('');
-    setQuantity(1);
-  }  
+    const dbRef = ref(db, '/products/');
+    
+    onValue(dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+
+        const childKey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        console.log('id :' +childData.id);
+        console.log('pid :' +productId);
+        if(childData.id===productId){
+          console.log(childKey);
+          setKey(childKey);
+         
+        }
+      })}
+      )
+      if(key!==''){
+         //const dbRef1 = ref(db, '/products/'+childKey);
+          const Refe = ref(db,'/products/'+key);
+          if(Title!==''){
+            update(Refe,{
+              name: Title,
+            });
+          }
+          if(Price!==0){
+            update(Refe,{
+            price: Price,
+            });
+          }
+          if(Description!==''){
+            update(Refe,{//
+              description : Description,
+            });
+          }
+          if(Category!==''){
+            update(Refe,{//
+              category : Category,
+            });
+          }
+          if(Quantity!==0){
+            update(Refe,{//
+              quantity : Quantity,
+            });
+          }else if(filePath!==''){
+            update(Refe,{//
+              image: filePath.substring(filePath.lastIndexOf('/')+1),
+            });
+          }
+          alert('Product Updated');
+          setTitle('');
+          setCategory('Select Category');
+          setPrice(0);
+          setDescription('');
+          setQuantity(1);
+          
+      }
+      }
+
     return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -121,7 +161,7 @@ const EditProduct =({route})=>{
         <TouchableOpacity style={styles.Button1}  onPress={()=> chooseFile()}>
           <Icon3 name='drive-folder-upload' color={'#62442B'} size={30} style={{marginTop:15, marginRight:10}}/>
         <Text style={styles.buttontext1}>Upload Pictures</Text></TouchableOpacity>
-      <TouchableOpacity onPress={()=>writeData()}style={styles.Button}><Text style={styles.buttontext}>Add Product</Text></TouchableOpacity>
+      <TouchableOpacity onPress={()=>updateData()}style={styles.Button}><Text style={styles.buttontext}>Edit Product</Text></TouchableOpacity>
       
 
       </View>

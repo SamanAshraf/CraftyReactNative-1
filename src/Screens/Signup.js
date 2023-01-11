@@ -57,11 +57,6 @@ const Signup =()=>{
               setComparisonCheck(false);
                 registerUser();
                 
-              
-        
-              
-              
-
             }
           }
         }
@@ -91,28 +86,7 @@ function writeUserData(email, name,id) {
     
   });
 }
-
-  
-/*   const registerUser = () => {
-    auth.createUserWithEmailAndPassword(email,confirmPassword).
-     
-     then((response) => console.log("Signed in with : ", email)).
-     
-     catch((error) => 
-     
-     {
-       console.log("Error : ", error.message)
-       //console.log(email)
-     })
- /* 
-     database.ref("/users/").push(
-       {
-         firstName: "Uzair",
-         lastName: "Ahmed"
-       }
-     ) 
-   }
- */  return (
+  return (
     <View style={styles.container}>
    
       <ProfilingHeader/>
