@@ -1,10 +1,84 @@
-import { StyleSheet, Text, View , Image, Pressable, TouchableOpacity, ScrollView} from 'react-native';
+import { StyleSheet, Text, View , Image, TouchableOpacity, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import Icon  from 'react-native-vector-icons/Feather';
 import Icon1  from 'react-native-vector-icons/EvilIcons';
+import { AdminProduct } from '../../Components/AdminProduct';
+
+import { getDatabase, ref, onValue, child, get, remove } from "firebase/database";
+import { db } from '../../firebase';
 const ProductList =()=>{
   const navigation= useNavigation();
+  const [dataa, setDataa] = useState([]);
+   
+  const getDataa=()=>{
+    //const db = getDatabase();
+    const dbRef = ref(db, '/products');
+    let count =0;
+    const array =[];
+    onValue(dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        
+        array[count]=childData;
+        count =count +1;
+      });
+      setDataa(array);
+    }, {
+      onlyOnce: true
+    });
+  }
+ 
+  findProduct=(id)=>{
+    return dataa.find((p) => (p.id == id))
+  }/* 
+  function renderProduct({item: product}) {
+    return (
+      <AdminProduct {...product} 
+      onPress={() => {
+        navigation.navigate('EditProduct', {
+          productId: product.id, data:dataa});
+      }} 
+      onPress1={()=>{
+        
+      }}
+      />
+    );
+  } */
+  const deleteData=(id)=>{
+    const dbRef = ref(db, '/products/');
+    
+    onValue(dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        if(childData.id===id){
+          console.log(childKey);
+          const dbRef1 = ref(db, '/products/'+childKey);
+          remove(dbRef1).then(()=>{
+            alert('Product Removed!');
+          })
+        }
+        
+      });
+      //setDataa(array);
+    }, {
+      onlyOnce: true
+    });
+    
+
+   // admin.ref(`/users/${userid}`).remove()
+
+  } 
+  const [products, setProducts] = useState([]);
+    
+  useEffect(() => {
+    setTimeout(() => {
+      getDataa();
+      console.log('Data retrived');
+  }, 1000);
+  },[dataa]); 
 
   return (
     <View style={styles.container}>
@@ -24,68 +98,23 @@ const ProductList =()=>{
  <ScrollView showsVerticalScrollIndicator={false}>
           
     
-        <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-evenly'}}>
-        <TouchableOpacity onPress={()=>navigation.navigate('EditProduct')} >
-        <View style={{marginRight:10}}>
-        <Image source={require('../../images/lampp.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <View style={{flexDirection:'row'}}>
-            <View>
-                <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-                <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>5,000 PKR</Text>
-            </View>
-            <TouchableOpacity style={{marginTop:10, marginLeft:5}}>
-                <Icon1 name="trash" size={30} color={'#62442B'}/>
-            </TouchableOpacity>
-            
-        </View>
-    
-          
-        </View>
-        </TouchableOpacity>
+        <View style={{flexDirection:'row', flexWrap:'wrap', justifyContent:'space-between',marginLeft:10,marginRight:10}}>
+
+        {dataa.map((item,key)=>(
+          <AdminProduct  name={item.name} price={item.price} image={item.image}
+        onPress={() => {
+        navigation.navigate('EditProduct', {
+          productId: item.id, title1:item.name, price1: item.price, description1: item.description,
+           category1:item.category, quantity1:item.quantity });
+        }} 
+        onPress1={()=>{
+        deleteData(item.id);
+      }}
+      />
+        ))}
+                
         
-        <View>
-        <Image source={require('../../images/minimalstand.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <View style={{flexDirection:'row'}}>
-            <View>
-                <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-                <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>5,000 PKR</Text>
-            </View>
-            <TouchableOpacity style={{marginTop:10, marginLeft:5}}>
-                <Icon1 name="trash" size={30} color={'#62442B'}/>
-            </TouchableOpacity>
-            
-        </View>
-        </View>
-      
-
-        <View style={{marginRight:10}}>
-        <Image source={require('../../images/chairrr.png')} style={{alignSelf:'center',marginTop:'25%', borderRadius: 10}}/>
-        <View style={{flexDirection:'row'}}>
-            <View>
-                <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-                <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>5,000 PKR</Text>
-            </View>
-            <TouchableOpacity style={{marginTop:10, marginLeft:5}}>
-                <Icon1 name="trash" size={30} color={'#62442B'}/>
-            </TouchableOpacity>
-            
-        </View>
-        </View>
-
-        <View>
-        <Image source={require('../../images/simpledesk.png')} style={{alignSelf:'center',marginTop:'25%'}}/>
-        <View style={{flexDirection:'row'}}>
-            <View>
-                <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>Black Simple Lamp</Text>
-                <Text style={{color:'#62442B',fontFamily:'NunitoSans-Bold',marginTop:5}}>5,000 PKR</Text>
-            </View>
-            <TouchableOpacity style={{marginTop:10, marginLeft:5}}>
-                <Icon1 name="trash" size={30} color={'#62442B'}/>
-            </TouchableOpacity>
-            
-        </View>          
-        </View>
-      </View> 
+        </View> 
               
           
         </ScrollView>         

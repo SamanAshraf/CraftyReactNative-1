@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View , Image, ImageBackground, TouchableOpacity, ScrollView} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { getDatabase, ref, onValue, get} from "firebase/database";
 import { getAuth, signOut } from "firebase/auth";
 import {db,auth} from "../firebase";
-import auth from '@react-native-firebase/auth'
+//import auth from '@react-native-firebase/auth'
 import { AuthContext } from '../navigation/AuthNavigator'
 
 const Profile =()=>{
@@ -15,9 +15,9 @@ const Profile =()=>{
   const [email, setemail] = useState('');
  // const auth = getAuth();
   //const user = auth.currentUser;
-  const getData = async () => {
-   
-      
+  useEffect(()=>{
+    const getData = async () => {
+         
 			const userId = await AsyncStorage.getItem('userId');
       const nameRef = ref(db, 'users/' + userId+ '/name');
       const emailRef = ref(db, 'users/' + userId+ '/email');
@@ -31,6 +31,8 @@ const Profile =()=>{
     });
 		
 	};
+  getData();
+  })
   const signOut=()=>{
     const auth = getAuth();
     signOut(auth).then(logout => {
@@ -39,9 +41,6 @@ const Profile =()=>{
       // An error happened.
     });
     
-  }
-  if(name===""){
-    getData();
   }
     return (
     
@@ -95,20 +94,6 @@ const Profile =()=>{
         </Text>
         <Text style = {styles.subtitle}>
           Saved products
-        </Text>
-        </View>
-        <TouchableOpacity>
-          <Image source={require('../../assets/Profile/next.png')}/>
-          </TouchableOpacity>
-      </View>
-
-      <View style={styles.rectangle}> 
-        <View>
-        <Text style= {styles.Title}>
-          Setting
-        </Text>
-        <Text style = {styles.subtitle}>
-          Password
         </Text>
         </View>
         <TouchableOpacity>
@@ -172,7 +157,7 @@ const styles = StyleSheet.create({
     alignSelf:'center',
     borderRadius:6,
     elevation: 20,
-    marginTop:60,
+    marginTop:100,
 
     //for ios
     shadowColor: '#000',

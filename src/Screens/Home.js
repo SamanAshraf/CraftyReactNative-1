@@ -6,6 +6,7 @@ import Icon1  from 'react-native-vector-icons/Ionicons';
 import { Product } from '../Components/Product';
 import { getProducts, getProduct, getProductC } from '../ProductsService';
 import { CartContext } from '../CartContext';
+import { getDatabase, ref, onValue, child, get } from "firebase/database";
 
 const Home =()=>{
   const navigation= useNavigation();
@@ -22,7 +23,35 @@ const Home =()=>{
   
   const {addItemToCart,setItems} = useContext(CartContext);
   
-
+  const getDataa=()=>{
+    const db = getDatabase();
+    const dbRef = ref(db, '/products');
+    let count =0;
+    const array =[];
+    onValue(dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        //console.log(childKey);
+        //console.log(childData);
+        //setData(childSnapshot);
+        array[count]=childData;
+        //console.log(array[count]);
+        //console.log(count);
+        count =count +1;
+      });
+      setDataa(array);
+    }, {
+      onlyOnce: true
+    });
+  }
+  const display =()=>{
+    dataa.forEach((aa)=>{console.log(aa)});
+      
+  }
+  findProduct=(id)=>{
+    return dataa.find((p) => (p.id == id))
+  }
   function renderProduct({item: product}) {
     return (
       <Product {...product} 
@@ -156,68 +185,240 @@ const Home =()=>{
       </View>
                     
       {data === '1'?
+        <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-between', marginLeft:10,marginRight:10}}>
+
+            {products.map((product,key)=>(
+              <Product  name={product.name} price={product.price} image={product.image}
+            onPress={() => {
+            navigation.navigate('Product', {
+              productId: product.id, data:dataa});
+            }} 
+            onPress1={()=>{
+              const product1 = findProduct(product.id);
+              setItems((prevItems) => {
+                const item = prevItems.find((item) => (item.id == product.id));
+                let id =product.id;
+                if(!item) {
+                  //console.log(product1.price)
+                    return [...prevItems, {
+                        id,
+                        qty: 1,
+                        product,
+                        
+                        totalPrice: product1.price 
+                    }];
+                }
+                else { 
+                    return prevItems.map((item) => {
+                      if(item.id == id) {
+                        item.qty++;
+                        item.totalPrice += product1.price;   
+                      }
+                      return item;
+                    });
+                }
+              });
+          }}
+          />
+            ))}
+                
+        </View>
         
-        <View style={{height:'80%', width:'100%'}}>
-            
-          <FlatList
-            contentContainerStyle={styles.productsListContainer}
-          keyExtractor={(item) => item.id.toString()}
-          data={products}
-          renderItem={renderProduct}
-            />  
-        </View> 
       : data==='2' ? 
-        
-      <View style={{flexDirection:'row',height:'80%'}}>
-            
-      <FlatList
-        contentContainerStyle={styles.productsListContainer}
-      keyExtractor={(item) => item.id.toString()}
-      data={products.filter((product) => (product.category === 'Chair'))}
-      renderItem={renderProduct}
-        />  
-      </View> 
+        <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-between', marginLeft:10,marginRight:10}}>
+          {products.filter((product) => (product.category === 'Chair')).map((product,key)=>(
+            <Product  name={product.name} price={product.price} image={product.image}
+          onPress={() => {
+          navigation.navigate('Product', {
+            productId: product.id, data:dataa});
+          }} 
+          onPress1={()=>{
+            const product1 = findProduct(product.id);
+            setItems((prevItems) => {
+              const item = prevItems.find((item) => (item.id == product.id));
+              let id =product.id;
+              if(!item) {
+                //console.log(product1.price)
+                  return [...prevItems, {
+                      id,
+                      qty: 1,
+                      product,
+                      
+                      totalPrice: product1.price 
+                  }];
+              }
+              else { 
+                  return prevItems.map((item) => {
+                    if(item.id == id) {
+                      item.qty++;
+                      item.totalPrice += product1.price;   
+                    }
+                    return item;
+                  });
+              }
+            });
+        }}
+        />
+          ))}
+                  
+      </View>
+           
+       
       : data==='3' ?
-      <View style={{flexDirection:'row',height:'80%'}}>
+        <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-between', marginLeft:10,marginRight:10}}>
+            {products.filter((product) => (product.category === 'Table')).map((product,key)=>(
+              <Product  name={product.name} price={product.price} image={product.image}
+            onPress={() => {
+            navigation.navigate('Product', {
+              productId: product.id, data:dataa});
+            }} 
+            onPress1={()=>{
+              const product1 = findProduct(product.id);
+              setItems((prevItems) => {
+                const item = prevItems.find((item) => (item.id == product.id));
+                let id =product.id;
+                if(!item) {
+                  //console.log(product1.price)
+                    return [...prevItems, {
+                        id,
+                        qty: 1,
+                        product,
+                        
+                        totalPrice: product1.price 
+                    }];
+                }
+                else { 
+                    return prevItems.map((item) => {
+                      if(item.id == id) {
+                        item.qty++;
+                        item.totalPrice += product1.price;   
+                      }
+                      return item;
+                    });
+                }
+              });
+          }}
+          />
+            ))}
+                    
+        </View>
             
-        <FlatList
-        contentContainerStyle={styles.productsListContainer}
-        keyExtractor={(item) => item.id.toString()}
-        data={products.filter((product) => (product.category === 'Table'))}
-        renderItem={renderProduct}
-          />  
-      </View> 
         : data==='4'?
-        
-        <View style={{flexDirection:'row',height:'80%'}}>
+          <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-between', marginLeft:10,marginRight:10}}>
+            {products.filter((product) => (product.category === 'ArmChair')).map((product,key)=>(
+              <Product  name={product.name} price={product.price} image={product.image}
+            onPress={() => {
+            navigation.navigate('Product', {
+              productId: product.id, data:dataa});
+            }} 
+            onPress1={()=>{
+              const product1 = findProduct(product.id);
+              setItems((prevItems) => {
+                const item = prevItems.find((item) => (item.id == product.id));
+                let id =product.id;
+                if(!item) {
+                  //console.log(product1.price)
+                    return [...prevItems, {
+                        id,
+                        qty: 1,
+                        product,
+                        
+                        totalPrice: product1.price 
+                    }];
+                }
+                else { 
+                    return prevItems.map((item) => {
+                      if(item.id == id) {
+                        item.qty++;
+                        item.totalPrice += product1.price;   
+                      }
+                      return item;
+                    });
+                }
+              });
+          }}
+          />
+            ))}
+                    
+          </View>
             
-          <FlatList
-            contentContainerStyle={styles.productsListContainer}
-          keyExtractor={(item) => item.id.toString()}
-          data={products.filter((product) => (product.category === 'ArmChair'))}
-          renderItem={renderProduct}
-            />  
-        </View> 
+          
          : data==='5'?
-         
-        <View style={{flexDirection:'row',height:'80%'}}>
-            
-        <FlatList
-          contentContainerStyle={styles.productsListContainer}
-        keyExtractor={(item) => item.id.toString()}
-        data={products.filter((product) => (product.category === 'Bed'))}
-        renderItem={renderProduct}
-          />  
-        </View>             
+         <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-between', marginLeft:10,marginRight:10}}>
+          {products.filter((product) => (product.category === 'Bed')).map((product,key)=>(
+            <Product  name={product.name} price={product.price} image={product.image}
+          onPress={() => {
+          navigation.navigate('Product', {
+            productId: product.id, data:dataa});
+          }} 
+          onPress1={()=>{
+            const product1 = findProduct(product.id);
+            setItems((prevItems) => {
+              const item = prevItems.find((item) => (item.id == product.id));
+              let id =product.id;
+              if(!item) {
+                //console.log(product1.price)
+                  return [...prevItems, {
+                      id,
+                      qty: 1,
+                      product,
+                      
+                      totalPrice: product1.price 
+                  }];
+              }
+              else { 
+                  return prevItems.map((item) => {
+                    if(item.id == id) {
+                      item.qty++;
+                      item.totalPrice += product1.price;   
+                    }
+                    return item;
+                  });
+              }
+            });
+          }}
+          />
+            ))}
+                    
+        </View>
+        
          :data==='6'?
-         <View style={{flexDirection:'row',height:'80%'}}>
-             
-         <FlatList
-           contentContainerStyle={styles.productsListContainer}
-         keyExtractor={(item) => item.id.toString()}
-         data={products.filter((product) => (product.category === 'Lamp'))}
-         renderItem={renderProduct}
-           />  
+         <View style={{flexDirection:'row', flexWrap:'wrap',justifyContent:'space-between', marginLeft:10,marginRight:10}}>
+          {products.filter((product) => (product.category === 'Lamp')).map((product,key)=>(
+            <Product  name={product.name} price={product.price} image={product.image}
+          onPress={() => {
+          navigation.navigate('Product', {
+            productId: product.id, data:dataa});
+          }} 
+          onPress1={()=>{
+            const product1 = findProduct(product.id);
+            setItems((prevItems) => {
+              const item = prevItems.find((item) => (item.id == product.id));
+              let id =product.id;
+              if(!item) {
+                //console.log(product1.price)
+                  return [...prevItems, {
+                      id,
+                      qty: 1,
+                      product,
+                      
+                      totalPrice: product1.price 
+                  }];
+              }
+              else { 
+                  return prevItems.map((item) => {
+                    if(item.id == id) {
+                      item.qty++;
+                      item.totalPrice += product1.price;   
+                    }
+                    return item;
+                  });
+                }
+              });
+          }}
+          />
+            ))}
+  
          </View>: null
            }                    
         

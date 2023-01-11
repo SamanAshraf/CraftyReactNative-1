@@ -41,7 +41,7 @@ const Profile =()=>{
           Products
         </Text>
         <Text style = {styles.subtitle}>
-          Adresses
+          5 Products in list
         </Text>
         </View>
         <TouchableOpacity onPress={()=>navigation.navigate("Shipping")}>

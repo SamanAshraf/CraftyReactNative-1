@@ -12,7 +12,18 @@ const Cart =({navigation})=>{
   
   const {items, setItems, getItemsCount, getTotalPrice, setItemQuantity} = useContext(CartContext);
   const [dataa, setDataa] = useState([]);
+  const [value,setValue]=useState('https://www.survivorsuk.org/wp-content/uploads/2017/01/no-image.jpg');
+  const [path,setPath]=useState('');
   
+    useEffect(()=>{
+    const func= async ()=>{
+      const storage = getStorage();
+      await getDownloadURL(ref(storage, image)).then((x)=>{
+        setValue(x);
+      })
+    }
+    func(); 
+  }) 
   getDataa=()=>{
     const db = getDatabase();
     const dbRef = ref(db, '/products');
@@ -60,11 +71,22 @@ const Cart =({navigation})=>{
       
    );
  }
+ 
+ useEffect(()=>{
+  const func= async ()=>{
+    const storage = getStorage();
+    await getDownloadURL(ref(storage, path)).then((x)=>{
+      setValue(x);
+    })
+  }
+  func(); 
+}) 
  function renderItem({item}) {
+  setPath(item.product.image);
   return (
     <View style = {styles.border}>
     <View>
-      <Image source={item.product.image} style = {{borderRadius:10,width:100,height:100}}/>
+      <Image source={{uri:value}} style = {{borderRadius:10,width:100,height:100}}/>
       </View>
       <View style= {styles.content}>
       <View style = {{marginLeft:20}}>

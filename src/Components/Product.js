@@ -18,7 +18,7 @@ export function Product({name, price, image, onPress,onPress1}) {
 
   return (
     <TouchableOpacity onPress={onPress}>
-        <View style={{marginRight:10}}>
+        <View style={{}}>
         <Image source={{uri:value}} style={{alignSelf:'center',marginTop:'25%', width:157, height:200, borderRadius:12}}/>
         <TouchableOpacity style={{position:'absolute',top:195,left:115}} onPress={onPress1}><Image source={require('../images/cart1.png')} /></TouchableOpacity>
         <Text style={{color:'#606060',fontFamily:'NunitoSans-Regular',marginTop:5}}>{name}</Text>

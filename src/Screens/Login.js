@@ -45,6 +45,8 @@ const Login =()=>{
   signInWithEmailAndPassword(auth, email, password)
   .then(userCredential => {
     storeData(userCredential.user.uid);
+    setemail('');
+    setPassword('');
     navigation.navigate('Home',{userId:userCredential.user});
     
   })

@@ -27,9 +27,9 @@ useEffect(() => {
         <Image source={require('../../images/simpledesk.png')} style={{borderRadius:100, width:45, height:45}} />
         <Text style={styles.title}>Dashboard</Text>
         <View style={{flexDirection:'row', marginTop:'2%'}}>
-        <Icon1 name='search-outline' color={'#62442B'} size={25} style={{paddingRight:5}}/>
+        {/* <Icon1 name='search-outline' color={'#62442B'} size={25} style={{paddingRight:5}}/>
         <Icon name='settings' color={'#62442B'} size={24}/>
-        </View>
+         */}</View>
         </View>  
           <Text style={styles.message}>Welcome Shabhi!</Text>
         <View style={styles.container2}>
@@ -99,7 +99,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily:'Gelasio-Bold',
     lineHeight:40,
-    letterSpacing:2
+    letterSpacing:2,
+    marginRight:30
     
   },
   message:{
