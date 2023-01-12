@@ -17,7 +17,6 @@ const Profile =()=>{
   //const user = auth.currentUser;
   useEffect(()=>{
     const getData = async () => {
-         
 			const userId = await AsyncStorage.getItem('userId');
       const nameRef = ref(db, 'users/' + userId+ '/name');
       const emailRef = ref(db, 'users/' + userId+ '/email');
@@ -33,13 +32,19 @@ const Profile =()=>{
 	};
   getData();
   })
-  const signOut=()=>{
-    const auth = getAuth();
-    signOut(auth).then(logout => {
+  const signOut=async()=>{
+   // const auth = getAuth();
+    //signOut(auth).then(logout => {
+       try {
+        await AsyncStorage.setItem('userId', '');
+        console.log('successs');
+      } catch (e) {
+        throw e;
+      } 
       navigation.navigate('Login');
-    }).catch((error) => {
+    //}).catch((error) => {
       // An error happened.
-    });
+    //});
     
   }
     return (
@@ -102,7 +107,7 @@ const Profile =()=>{
       </View>
 
       </View>
-            <TouchableOpacity style={styles.Button}><Text style={styles.buttontext} onPress={()=>{navigation.navigate('Login')}}><Image source={require('../../assets/Profile/Logout.png')}/>  Logout</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.Button}><Text style={styles.buttontext} onPress={()=>signOut()}><Image source={require('../../assets/Profile/Logout.png')}/>  Logout</Text></TouchableOpacity>
     </View>
   );
 }
