@@ -1,27 +1,36 @@
-import { StyleSheet, Text, View , Image, TouchableOpacity, TextInput, Pressable, Alert, ToastAndroid} from 'react-native';
+import { StyleSheet, Text, View , Image, TouchableOpacity, TextInput, Pressable, Alert} from 'react-native';
 import React, {useState} from 'react';
 import ProfilingHeader from '../Components/ProfilingHeader';
 import ProfilingButton from '../Components/ProfilingButton';
 import { useNavigation } from '@react-navigation/native';
-import { auth } from '../firebase';
-import { sendPasswordResetEmail } from 'firebase/auth';
+import { sendPasswordResetEmail } from '@firebase/auth';
+import { auth,db } from '../firebase';
 
 
 const ForgetPassword =()=>{  
   const navigation= useNavigation();
-  const [email,setEmail] = useState('');
+  const [email,setEmail] = useState(null);
 
-    function resetEmail(){
-       
-        auth.sendPasswordResetEmail(email).then((response)=>{
-            ToastAndroid.show("Please check your email to reset password", ToastAndroid.SHORT)
-            navigation.navigate("Login")
-        }).catch(error=> ToastAndroid.show(error.message, ToastAndroid.SHORT))
-    }
+const reset = () => {
+  if(email!=null){
+    sendPasswordResetEmail(auth, email)
+  .then(() => {
+    alert('email is sent to reset your password')
+    navigation.navigate('PasswordUpdated')
+  })
+  .catch((error) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    alert(errorMessage);
+  });
+
+  } else {
+    alert('Please enter your email');
+  }
+}
 
   return (
     <View style={styles.container}>
-   
       <ProfilingHeader/>
       <View style={styles.container2}>
         <Text style={styles.title1}>FORGET YOUR PASSWORD?</Text>
@@ -29,10 +38,11 @@ const ForgetPassword =()=>{
 
       <View style={styles.logincontainer}>
         <Text style={styles.label}>Email</Text>
-        <TextInput style={styles.input} value={email} 
-        onChangeText={setEmail} 
+        <TextInput style={styles.input} 
+        value={email} 
+        onChangeText={setEmail}
         />
-        <ProfilingButton title="NEXT" onPress={resetEmail}/>
+        <ProfilingButton title="NEXT" onPress={()=>reset()}> </ProfilingButton>
       </View>
     </View>
   );

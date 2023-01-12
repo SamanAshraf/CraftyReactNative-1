@@ -9,7 +9,7 @@ const ProductOrder =()=>{
     return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <TouchableOpacity style={{justifyContent:'flex-start', marginLeft:5, marginTop:2}} onPress={()=>navigation.navigate("AddProduct")} >
+      <TouchableOpacity style={{justifyContent:'flex-start', marginLeft:5, marginTop:2}} onPress={()=>navigation.navigate("OrderHistory")} >
         <Icon name='left' color={'#62442B'} size={20}/> 
         </TouchableOpacity>
         <Text style={styles.title}>Order No 238562312</Text>

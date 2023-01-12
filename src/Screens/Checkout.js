@@ -2,14 +2,57 @@ import { StyleSheet, Text, View , Image, ImageBackground, TouchableOpacity, Scro
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import { useState } from 'react';
+import { getProducts, getProduct, getProductC } from '../ProductsService';
+import { getDatabase, ref, onValue, child, get } from "firebase/database";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useEffect } from 'react';
 
 
-const Checkout =()=>{
+const Checkout =({route})=>{
   const navigation= useNavigation();
-  const [name, setname] = useState('Saman ASTUPIDDDDDDDDD');
-  const [address, setaddress] = useState('House#178, st#334 Islamabad');
-  const [contact, setcontact] = useState('03127865893');
-  const [email, setemail] = useState('saman.ashraf@gmail.com');
+  const [name, setname] = useState('');
+  const [address, setaddress] = useState('');
+  const [city, setcity] = useState('');
+  const [contact, setcontact] = useState('');
+  const [email, setemail] = useState('');
+  //const [data, setData] = useState(g{});
+  const {Total}= route.params;
+  const [totalprice, settotalprice]= useState(1000);
+  
+
+
+
+  const getDataa= async()=>{
+    const userId = await AsyncStorage.getItem('userId');
+    const db = getDatabase();
+    const dbRef = ref(db, '/users/'+userId);
+    let count =0;
+    const array =[];
+    onValue(dbRef, (snapshot) => {
+        const childKey = snapshot.key;
+        const childData = snapshot.val();
+        //console.log(childKey);
+        setname(childData.fname);
+        setaddress(childData.address);
+        setcity(childData.city);
+        setcontact(childData.contact);
+        setemail(childData.email);
+        
+        //setData(childSnapshot);
+        //array[count]=childData;
+        //console.log(array[count]);
+        //console.log(count);
+        //count =count +1;
+  
+  })
+  }
+      
+  useEffect(() => {
+      getDataa();
+    // settotalprice(parseInt(Total)+1000);
+
+  });
+  
 
 
     return (
@@ -28,18 +71,18 @@ const Checkout =()=>{
 
       <View style={styles.rectangle}> 
       <Text style={{...styles.editbox,borderBottomWidth:1,
-    borderBottomColor:'#CEBB9E'}}> Saman Ashraf</Text>
+    borderBottomColor:'#CEBB9E'}}>{name}</Text>
       <Text style={{...styles.editbox,borderBottomWidth:1,
-    borderBottomColor:'#CEBB9E'}}> House#178, st#334 Islamabad</Text>
+    borderBottomColor:'#CEBB9E'}}> {address} {city} </Text>
       <Text style={{...styles.editbox,borderBottomWidth:1,
-    borderBottomColor:'#CEBB9E'}}> 03127865893</Text>
-      <Text style={styles.editbox}> saman.ashraf@gmail.com</Text>
+    borderBottomColor:'#CEBB9E'}}> {contact} </Text>
+      <Text style={styles.editbox}> {email} </Text>
       </View>
 
       <View style={styles.subtotal}>
         <View style={styles.amount}>
             <Text style={styles.amounttext}>Sub Total</Text>
-            <Text style={styles.amounttext1}>95,0000 PKR</Text>
+            <Text style={styles.amounttext1}>{Total} PKR</Text>
         </View>
         <View style={styles.amount}>
             <Text style={styles.amounttext}>Delivery Charges</Text>
@@ -47,10 +90,10 @@ const Checkout =()=>{
         </View>
         <View style={styles.amount}>
         <Text style={styles.amounttext}>Total Amount</Text>
-        <Text style={styles.amounttext1}>96,000 PKR</Text>
+        <Text style={styles.amounttext1}>{parseInt(Total)+1000} PKR</Text>
         </View>
       </View>
-      <TouchableOpacity style={styles.Button} onPress={()=>navigation.navigate('Edit')}><Text style= {styles.buttontext}>Submit Order</Text></TouchableOpacity>
+      <TouchableOpacity style={styles.Button} onPress={()=> navigation.navigate('Congrats')}><Text style= {styles.buttontext}>Submit Order</Text></TouchableOpacity>
 
 
     </View>

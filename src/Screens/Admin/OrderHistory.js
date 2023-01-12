@@ -39,7 +39,7 @@ const OrderHistory =()=>{
       <Text style= {styles.subtitle}>Total:4000 PKR</Text>
      </View>
       <View style= {{flexDirection:'row', justifyContent:"space-between"}}>
-        <TouchableOpacity style={styles.Detail}><Text style= {styles.DetailText}>Detail</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('ProductOrder')} style={styles.Detail}><Text style= {styles.DetailText}>Detail</Text></TouchableOpacity>
       </View>
       </View>
 
@@ -54,7 +54,7 @@ const OrderHistory =()=>{
       <Text style= {styles.subtitle}>Total:4000 PKR</Text>
      </View>
       <View style= {{flexDirection:'row', justifyContent:"space-between"}}>
-        <TouchableOpacity style={styles.Detail}><Text style= {styles.DetailText}>Detail</Text></TouchableOpacity>
+        <TouchableOpacity onPress={()=>navigation.navigate('ProductOrder')} style={styles.Detail}><Text style= {styles.DetailText}>Detail</Text></TouchableOpacity>
       </View>
       </View>
 
