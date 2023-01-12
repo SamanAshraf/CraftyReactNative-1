@@ -12,7 +12,7 @@ const Profile =()=>{
     } catch (e) {
       throw e;
     }
-    navigation.navigate('AdminLogin');
+    navigation.navigate('Login');
   }
     return (
     <View style={styles.container}>

@@ -16,15 +16,27 @@ const Splash = () => {
   const getData =async ()=>{
     const Check = await AsyncStorage.getItem('Check');
     const userId = await AsyncStorage.getItem('userId');
+    const AdminId = await AsyncStorage.getItem('AdminId');
+    console.log(AdminId);
     setAbc(userId);
-    if (userId!=='' || userId !== null || userId !==undefined){
-      navigation.navigate('Login');
-    }else if(Check==="true"){
-        navigation.navigate('Login');
-    }else{
-        navigation.navigate('GetStarted');
+    navigation.navigate('GetStarted');
+    /* if(userId!=='' || userId !== null || userId !==undefined){
+      navigation.navigate('Home',{userId:userId});
+      //navigation.navigate('Login');
     }
-      
+    if(userId===null){
+        navigation.navigate('Login');
+    }
+    if(AdminId===null){
+        navigation.navigate('Login');
+    }
+    if(AdminId!=='' ||AdminId!==null || AdminId!==undefined){
+      navigation.navigate('AdminDashboard')
+    } */
+    /* }else{
+        navigation.navigate('GetStarted');
+    } */
+  
     
   };
  

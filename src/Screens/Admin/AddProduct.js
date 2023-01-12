@@ -20,7 +20,7 @@ const AddProduct =()=>{
   const [Description, setDescription]= useState('');
   const [Category, setCategory]= useState('');
   const [Quantity, setQuantity]= useState(1);
-  const [filePath, setFilePath] = useState('');
+  const [filePath, setFilePath] = useState('https://www.survivorsuk.org/wp-content/uploads/2017/01/no-image.jpg');
   const [fileName, setFileName] = useState('');
   const [uploading, setUploading] = useState(false);
    
