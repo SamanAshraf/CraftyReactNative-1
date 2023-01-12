@@ -7,10 +7,11 @@ import { Product } from '../Components/Product';
 import { getProducts, getProduct, getProductC } from '../ProductsService';
 import { CartContext } from '../CartContext';
 import { getDatabase, ref, onValue, child, get } from "firebase/database";
+import {db} from '../firebase';
+import { BackHandler } from 'react-native';
 
 const Home =()=>{
-  const navigation= useNavigation();
- 
+  const navigation= useNavigation(); 
   const [data, setdata] = React.useState('1');
   const [col, setcolor] = useState('#CEBB9E');
   const [col1, setcolor1] = useState('#62442B');
@@ -22,9 +23,20 @@ const Home =()=>{
   const [key, setKey] = useState();
   
   const {addItemToCart,setItems} = useContext(CartContext);
-  
+  const backAction = () => {
+    {
+      onPress: () => null
+    }
+    return true;
+  };
+  useEffect(() => {
+    BackHandler.addEventListener("hardwareBackPress", backAction);
+    return () =>
+      BackHandler.removeEventListener("hardwareBackPress", backAction);
+  }, []);
+
   const getDataa=()=>{
-    const db = getDatabase();
+    //const db = getDatabase();
     const dbRef = ref(db, '/products');
     let count =0;
     const array =[];
@@ -32,12 +44,9 @@ const Home =()=>{
       snapshot.forEach((childSnapshot) => {
         const childKey = childSnapshot.key;
         const childData = childSnapshot.val();
-        //console.log(childKey);
-        //console.log(childData);
-        //setData(childSnapshot);
+       
         array[count]=childData;
-        //console.log(array[count]);
-        //console.log(count);
+        
         count =count +1;
       });
       setDataa(array);
@@ -45,50 +54,26 @@ const Home =()=>{
       onlyOnce: true
     });
   }
-  const display =()=>{
-    dataa.forEach((aa)=>{console.log(aa)});
-      
+  const getData=()=>{
+    //const db = getDatabase();
+    const dbRef = ref(db, '/users');
+    
+    onValue(dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        if(childKey===userId){
+          setdata(childData);
+        }
+        
+      });
+    })
+
   }
   findProduct=(id)=>{
     return dataa.find((p) => (p.id == id))
   }
-  function renderProduct({item: product}) {
-    return (
-      <Product {...product} 
-      onPress={() => {
-        navigation.navigate('Product', {
-          productId: product.id, data:dataa});
-      }} 
-      onPress1={()=>{
-        const product1 = findProduct(product.id);
-          setItems((prevItems) => {
-            const item = prevItems.find((item) => (item.id == product.id));
-            let id =product.id;
-            if(!item) {
-              //console.log(product1.price)
-                return [...prevItems, {
-                    id,
-                    qty: 1,
-                    product,
-                    
-                    totalPrice: product1.price 
-                }];
-            }
-            else { 
-                return prevItems.map((item) => {
-                  if(item.id == id) {
-                    item.qty++;
-                    item.totalPrice += product1.price;   
-                  }
-                  return item;
-                });
-            }
-          });
-      }}
-      />
-    );
-  }
-
+  
   const [products, setProducts] = useState([]);
     
   useEffect(() => {

@@ -5,12 +5,13 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage";
 import Icon1  from 'react-native-vector-icons/EvilIcons';
 
 export function AdminProduct({name, price, image, onPress,onPress1}) {
-  const [value,setValue]=useState('https://www.survivorsuk.org/wp-content/uploads/2017/01/no-image.jpg');
+const [value,setValue]=useState('https://www.survivorsuk.org/wp-content/uploads/2017/01/no-image.jpg');
   
     useEffect(()=>{
     const func= async ()=>{
       const storage = getStorage();
       await getDownloadURL(ref(storage, image)).then((x)=>{
+        console.log(x);
         setValue(x);
       })
     }
