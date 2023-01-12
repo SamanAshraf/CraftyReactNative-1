@@ -64,6 +64,8 @@ const Profile =()=>{
         </View>
       </View>
       <View style={{alignItems:'center'}}>
+
+      <TouchableOpacity onPress={()=>navigation.navigate("Order")}>
       <View style={styles.rectangle}> 
         <View>
         <Text style= {styles.Title}>
@@ -73,11 +75,12 @@ const Profile =()=>{
           Already have 10 orders
         </Text>
         </View>
-        <TouchableOpacity onPress={()=>navigation.navigate("Order")}>
           <Image source={require('../../assets/Profile/next.png')}/>
-          </TouchableOpacity>
       </View>
+      </TouchableOpacity>
 
+
+       <TouchableOpacity onPress={()=>navigation.navigate("Shipping")}>
       <View style={styles.rectangle}> 
         <View>
         <Text style= {styles.Title}>
@@ -87,11 +90,11 @@ const Profile =()=>{
           Adresses
         </Text>
         </View>
-        <TouchableOpacity onPress={()=>navigation.navigate("Shipping")}>
           <Image source={require('../../assets/Profile/next.png')}/>
-          </TouchableOpacity>
       </View>
+      </TouchableOpacity>
 
+      <TouchableOpacity onPress={()=>navigation.navigate('Favorites')}>
       <View style={styles.rectangle}> 
         <View>
         <Text style= {styles.Title}>
@@ -101,11 +104,9 @@ const Profile =()=>{
           Saved products
         </Text>
         </View>
-        <TouchableOpacity>
           <Image source={require('../../assets/Profile/next.png')}/>
-          </TouchableOpacity>
       </View>
-
+      </TouchableOpacity>
       </View>
             <TouchableOpacity style={styles.Button}><Text style={styles.buttontext} onPress={()=>signOut()}><Image source={require('../../assets/Profile/Logout.png')}/>  Logout</Text></TouchableOpacity>
     </View>

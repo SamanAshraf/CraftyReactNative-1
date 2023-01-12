@@ -48,7 +48,7 @@ const Splash = () => {
           source={require('../images/splash.png')}  
         style={{ alignSelf:"center", 
         justifyContent:"center"}}/>
-      <Text style={styles.text}>Crafty {abc}</Text>
+      <Text style={styles.text}>Craftyyyyy {abc}</Text>
       </View>
       </View>
   );

@@ -61,11 +61,11 @@ const Product = ({route}) => {
                 <Text style = {styles.price}>
                     {product.price} PKR
                 </Text>
-                <View style = {styles.plus}>
+                {/* <View style = {styles.plus}>
                     <TouchableOpacity  style = {{backgroundColor: '#CEBB9E', width: 30, height: 30, justifyContent: 'center', alignItems:'center', borderRadius:6, elevation:6}}><Image source={require('../../assets/Products/plus.png')}></Image></TouchableOpacity>
                     <Text style = {{marginTop: 5, fontFamily: 'NunitoSans-SemiBold', marginRight: 7, marginLeft:7, color: '#62442B',letterSpacing: 2}}> 01 </Text>
                     <TouchableOpacity style = {{backgroundColor: '#CEBB9E', width: 30, height: 30, justifyContent: 'center', alignItems:'center', borderRadius:6, elevation:6}}><Image source={require('../../assets/Products/minus.png')}></Image></TouchableOpacity>
-                </View>
+                </View> */}
             </View>
             <Text style = {{fontSize: 14, fontFamily: 'NunitoSans-Light', color:'#606060',paddingTop: 20,textAlign:'justify'}}>
                 {product.description}

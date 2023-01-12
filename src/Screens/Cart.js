@@ -60,7 +60,7 @@ const Cart =({navigation})=>{
         <Text style= {{fontFamily:'NunitoSans-Bold', color:'#62442B', fontSize: 20, marginBottom:20,marginRight:20}}> Total: </Text>
         <Text style= {{fontFamily:'NunitoSans-Bold', color:'#62442B', fontSize: 20, marginBottom:20, marginLeft:20}}>{total} PKR</Text>
         </View>
-        <TouchableOpacity style={styles.Button} onPress={()=>navigation.navigate('Checkout')}><Text style={styles.buttontext}>Checkout</Text></TouchableOpacity>
+        <TouchableOpacity style={styles.Button} onPress={()=>navigation.navigate('Checkout',{Total:total})}><Text style={styles.buttontext}>Checkout</Text></TouchableOpacity>
         </View>: <View style={{justifyContent:'center',alignSelf:'center',marginTop:'70%', alignItems:'center'}}>
           <Icon1 name='shopping-cart' size={70} color={'#62442B'}/>
           <Text style={{fontFamily:'Gelasio-Bold', color:'#62442B', fontSize: 25,marginTop:15}}>Your Cart is Empty</Text>

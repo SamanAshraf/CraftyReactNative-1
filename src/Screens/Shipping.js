@@ -1,11 +1,58 @@
 import { StyleSheet, Text, View , Image, ImageBackground, TouchableOpacity, ScrollView,TextInput} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import { useState } from 'react';
+import { async } from '@firebase/util';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { auth,db } from '../firebase';
+import { push, ref,onValue, child } from "firebase/database";
 
+import { set } from 'firebase/database';
 
 
 const Shipping =()=>{
   const navigation= useNavigation();
+  const [fname,setfname] = useState('');
+  const [address,setaddress] = useState('');
+  const [city,setcity] = useState('');
+  const [contact,setcontact] = useState('');
+  const [additionalinfo,setadditionalinfo] = useState('');
+  const [name, setname] = useState('');
+  const [email, setemail] = useState('');
+  const [data, setdata] = useState(null);
+  
+
+  const writeUserData = async()=> {
+    const userId = await AsyncStorage.getItem('userId');
+    const dbRef = ref(db, '/users');
+    
+    onValue(dbRef, (snapshot) => {
+      snapshot.forEach((childSnapshot) => {
+        const childKey = childSnapshot.key;
+        const childData = childSnapshot.val();
+        if(childKey===userId){
+          console.log(childData);
+          setdata(childData);
+          //setname(childData.name);
+          //setemail(childData.email);
+        }
+        
+      });
+    })
+    console.log(data);
+    console.log(data.email);
+  
+    await set(ref(db, 'users/' + userId), {
+      name:data.name,
+      email:data.email,
+      fname: fname,
+      address: address,
+      city: city,
+      contact: contact,
+      additionalinfo: additionalinfo
+    });
+     alert('Your Shipping Address saved Successfully')
+  }
 
     return (
     <View style={styles.container}>
@@ -15,13 +62,13 @@ const Shipping =()=>{
         </TouchableOpacity>
         <Text style={styles.title}>Shipping Address</Text>
       </View>
-      <TextInput style={styles.input} placeholder="Full name*" placeholderTextColor={'#62442B'}
+      <TextInput style={styles.input} placeholder="Full name*" placeholderTextColor={'#62442B'} value={fname} onChangeText={setfname}
  />
-      <TextInput style={styles.input}   placeholder="Address*"  placeholderTextColor={'#62442B'}/>
-      <TextInput style={styles.input}   placeholder="City*"  placeholderTextColor={'#62442B'}/>
-      <TextInput style={styles.input}   placeholder="Country*"  placeholderTextColor={'#62442B'}/>
-      <TextInput style={styles.textarea}   placeholder="Additonal Information" placeholderTextColor={'#62442B'} />
-      <TouchableOpacity style={styles.Button}><Text style={styles.buttontext}>Save Address</Text></TouchableOpacity>
+      <TextInput style={styles.input}   placeholder="Address*"  placeholderTextColor={'#62442B'} value={address} onChangeText={setaddress}/>
+      <TextInput style={styles.input}   placeholder="City*"  placeholderTextColor={'#62442B'} value={city} onChangeText={setcity}/>
+      <TextInput style={styles.input}   placeholder="Contact*"  placeholderTextColor={'#62442B'} value={contact} onChangeText={setcontact} keyboardType="numeric"/>
+      <TextInput style={styles.textarea}   placeholder="Additonal Information" placeholderTextColor={'#62442B'} value={additionalinfo} onChangeText={setadditionalinfo} />
+      <TouchableOpacity onPress={()=> writeUserData()} style={styles.Button}><Text style={styles.buttontext}>Save Address</Text></TouchableOpacity>
     </View>
   );
 }
